@@ -1,0 +1,20 @@
+package com.todo.registering.domain;
+
+import com.todo.common.validation.RegexMatchFailed;
+import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class EmailTest {
+
+    @Test
+    public void shouldntThrowRegexException(){
+        new Email("a@b");
+    }
+
+    @Test
+    public void shouldThrowRegexException(){
+        assertThrows(RegexMatchFailed.class, () -> new Email("abxde"));
+    }
+
+}

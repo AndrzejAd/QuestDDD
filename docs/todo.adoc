@@ -1,0 +1,11 @@
+= ToDo Test Api
+
+Simple application to practice DDD.
+
+Business logic:
+
+. Adding user.
+.. Validation of users country.
+. Adding activity to the user.
+. Deleting activity.
+. Sending email after registration.
