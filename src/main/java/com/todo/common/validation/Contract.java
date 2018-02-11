@@ -10,6 +10,10 @@ public class Contract {
         isTrue(Objects.nonNull(object), NonNullExpected::new);
     }
 
+    public static void notNull(Object... objects){
+        for ( Object o : objects) notNull(o);
+    }
+
     public static void notEmptyCollection(Collection collection){
         isTrue( collection.isEmpty(), NotEmptyCollectionExpected::new );
     }

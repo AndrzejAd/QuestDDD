@@ -19,11 +19,7 @@ public class AddressCheckerService {
                 .url(requestPrefix + checkAddressCommand.getAddress().getCountry())
                 .build();
         try {
-            if ( okHttpClient.newCall(request).execute().code() == 200 ){
-                return true;
-            } else{
-                return false;
-            }
+            return okHttpClient.newCall(request).execute().code() == 200;
         } catch (IOException e) {
             logger.warn("Couldn't get response from Rest Countries API" + e.getMessage());
             return false;
