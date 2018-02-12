@@ -1,5 +1,6 @@
 package com.todo.registering.domain;
 
+import com.todo.common.annotations.AggregateRoot;
 import com.todo.common.domain.AbstractEntity;
 import com.todo.common.validation.Contract;
 import com.todo.common.validation.InvalidDate;
@@ -11,10 +12,11 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
-@EqualsAndHashCode(callSuper = false, of = "email")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AggregateRoot
 @ToString
 @Getter
+@EqualsAndHashCode(callSuper = false, of = "email")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User extends AbstractEntity{
 
     @Embedded

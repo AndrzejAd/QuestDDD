@@ -1,7 +1,8 @@
 package com.todo.registering.domain;
 
 import com.todo.common.validation.RegexMatchFailed;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 

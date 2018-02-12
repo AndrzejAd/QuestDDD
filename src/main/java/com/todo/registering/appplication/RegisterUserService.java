@@ -1,16 +1,12 @@
 package com.todo.registering.appplication;
 
 import com.todo.common.annotations.ApplicationService;
-import com.todo.registering.domain.Address;
-import com.todo.registering.domain.User;
-import com.todo.registering.domain.UserFactory;
-import com.todo.registering.domain.UsersRepository;
+import com.todo.common.validation.InvalidCountry;
+import com.todo.registering.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.concurrent.CompletableFuture;
 
 @ApplicationService
 public class RegisterUserService {
@@ -28,17 +24,20 @@ public class RegisterUserService {
     @Transactional( propagation  = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void registerUser(CreateUserCommand createUserCommand){
         Address address = new Address(createUserCommand.getCountry(), createUserCommand.getCity());
-        CheckAddressCommand checkAddressCommand = new CheckAddressCommand(address);
-        CompletableFuture<Boolean> isAddressValid
-                = CompletableFuture.supplyAsync( () -> addressCheckerService.checkIfCountryExists(checkAddressCommand));
-        User user = userFactory.createUser(
-                createUserCommand.getEmailAddress(),
-                createUserCommand.getCountry(),
-                createUserCommand.getCity(),
-                createUserCommand.getUsername(),
-                createUserCommand.getPassword(),
-                createUserCommand.getEpochBirthDate()
-        );
+        if ( addressCheckerService.checkIfCountryExists(new CheckAddressCommand(address)) ){
+            User user = userFactory.createUser(
+                    createUserCommand.getEmailAddress(),
+                    createUserCommand.getCountry(),
+                    createUserCommand.getCity(),
+                    createUserCommand.getUsername(),
+                    createUserCommand.getPassword(),
+                    createUserCommand.getEpochBirthDate()
+            );
+            usersRepository.save(user);
+        } else{
+            throw new InvalidCountry();
+        }
+
     }
 
 }

@@ -1,7 +1,7 @@
 package com.todo.registering.domain;
 
 import com.todo.common.validation.InvalidDate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
