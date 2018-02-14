@@ -1,6 +1,6 @@
 package com.todo.registering.saving.ui;
 
-import com.todo.registering.saving.appplication.CreateUserCommand;
+import com.todo.registering.saving.appplication.commands.CreateUserCommand;
 import com.todo.registering.saving.appplication.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

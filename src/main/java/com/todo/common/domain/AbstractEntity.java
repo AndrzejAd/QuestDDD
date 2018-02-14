@@ -8,19 +8,17 @@ import java.time.LocalDate;
 
 @MappedSuperclass
 @ToString
+@Getter
 public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private long id;
 
     @Version
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    @Getter
     private int version;
 
-    @Getter
     private LocalDate creationDate;
 
     @Override

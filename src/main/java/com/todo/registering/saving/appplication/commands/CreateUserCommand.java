@@ -1,4 +1,4 @@
-package com.todo.registering.saving.appplication;
+package com.todo.registering.saving.appplication.commands;
 
 import com.todo.common.annotations.Command;
 import lombok.AllArgsConstructor;

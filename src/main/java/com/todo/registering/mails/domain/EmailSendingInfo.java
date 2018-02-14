@@ -3,13 +3,14 @@ package com.todo.registering.mails.domain;
 import com.todo.common.domain.AbstractEntity;
 import com.todo.common.validation.Contract;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmailSendingInfo extends AbstractEntity {
     private String address;
