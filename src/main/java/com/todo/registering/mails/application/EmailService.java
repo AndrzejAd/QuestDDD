@@ -1,5 +1,7 @@
 package com.todo.registering.mails.application;
 
+import com.todo.registering.mails.application.commands.SendEmailCommand;
+
 public interface EmailService {
-    void sendEmail(String to, String subject, String text );
+    void sendEmail(SendEmailCommand sendEmailCommand );
 }

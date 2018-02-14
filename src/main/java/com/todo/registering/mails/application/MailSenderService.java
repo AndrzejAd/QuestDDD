@@ -1,10 +1,15 @@
 package com.todo.registering.mails.application;
 
 import com.todo.common.annotations.ApplicationService;
+import com.todo.registering.mails.application.commands.SendEmailCommand;
+import com.todo.registering.mails.domain.EmailSendingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @ApplicationService
-public class MailSenderService {
+public class MailSenderService implements EmailService{
     private final MailSenderImpl mailSender;
     private final MailsInfoRepository mailsInfoRepository;
 
@@ -14,13 +19,18 @@ public class MailSenderService {
         this.mailsInfoRepository = mailsInfoRepository;
     }
 
+    @Override
+    @Transactional( propagation  = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void sendEmail(SendEmailCommand sendEmailCommand){
         mailSender.sendEmail(
                 sendEmailCommand.getTo(),
                 sendEmailCommand.getSubject(),
                 sendEmailCommand.getText()
         );
-
+        mailsInfoRepository.save(new EmailSendingInfo(
+                sendEmailCommand.getTo(),
+                sendEmailCommand.getSubject()
+        ));
     }
 
 }
