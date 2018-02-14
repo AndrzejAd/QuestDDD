@@ -2,6 +2,7 @@ package com.todo.registering.mails.application;
 
 import com.todo.common.annotations.ApplicationService;
 import com.todo.registering.mails.application.commands.SendEmailCommand;
+import com.todo.registering.mails.domain.Email;
 import com.todo.registering.mails.domain.EmailSendingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,10 +23,11 @@ public class MailSenderService implements EmailService{
     @Override
     @Transactional( propagation  = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void sendEmail(SendEmailCommand sendEmailCommand){
-        mailSender.sendEmail(
-                sendEmailCommand.getTo(),
-                sendEmailCommand.getSubject(),
-                sendEmailCommand.getText()
+        mailSender.sendEmail( new Email(
+                    sendEmailCommand.getTo(),
+                    sendEmailCommand.getSubject(),
+                    sendEmailCommand.getText()
+                )
         );
         mailsInfoRepository.save(new EmailSendingInfo(
                 sendEmailCommand.getTo(),

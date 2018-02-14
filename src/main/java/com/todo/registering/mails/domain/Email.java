@@ -14,13 +14,13 @@ public class Email {
     private final String text;
     private final LocalDate sendDate;
 
-    public Email(String address, String subject, String text, LocalDate sendDate) {
-        Contract.notNull(address, subject, text, sendDate);
+    public Email(String address, String subject, String text) {
+        Contract.notNull(address, subject, text);
         Contract.matches(address, ".*@.*");
         this.address = address;
         this.subject = subject;
         this.text = text;
-        this.sendDate = sendDate;
+        this.sendDate = LocalDate.now();
     }
 
 
