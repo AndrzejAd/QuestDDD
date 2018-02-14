@@ -11,17 +11,17 @@ import org.springframework.context.ApplicationListener;
 @EventListener
 public class UserIsRegisteredListener implements ApplicationListener<UserIsRegistered> {
     private final Logger logger = LogManager.getLogger(UserIsRegisteredListener.class);
-    private final MailSenderService mailSenderService;
+    private final EmailService emailService;
 
     @Autowired
-    public UserIsRegisteredListener(MailSenderService mailSenderService) {
-        this.mailSenderService = mailSenderService;
+    public UserIsRegisteredListener(EmailService emailService) {
+        this.emailService = emailService;
     }
 
     @Override
     public void onApplicationEvent(UserIsRegistered userIsRegistered) {
         logger.info("User with id: " + userIsRegistered.getUserId() + " is registered, sending mail.");
-        mailSenderService.sendEmail(
+        emailService.sendEmail(
                 new SendEmailCommand(
                         userIsRegistered.getEmail(),
                         "Register email.",

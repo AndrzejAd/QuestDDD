@@ -41,11 +41,10 @@ public class RegisterUserService {
                     createUserCommand.getEpochBirthDate()
             );
             usersRepository.save(user);
-            UserIsRegistered userIsRegistered
-                    = new UserIsRegistered(this, user.getId(), user.getEmail().getAddress(),
+            UserIsRegistered userIsRegistered = new UserIsRegistered(
+                    this, user.getId(), user.getEmail().getAddress(),
                     user.getCreationDate(), user.getUsername());
             applicationEventPublisher.publishEvent(userIsRegistered);
-
         } else {
             throw new InvalidCountry();
         }

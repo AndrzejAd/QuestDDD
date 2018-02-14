@@ -13,5 +13,4 @@ public interface SpringDataUserRepository extends UsersRepository, JpaRepository
     void delete(User user);
     List<User> findAll();
     Optional<User> findByEmail(Email email);
-
 }
