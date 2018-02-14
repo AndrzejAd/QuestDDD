@@ -28,10 +28,10 @@ public class RegisterUserService {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    @Transactional( propagation  = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public void registerUser(CreateUserCommand createUserCommand){
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    public void registerUser(CreateUserCommand createUserCommand) {
         Address address = new Address(createUserCommand.getCountry(), createUserCommand.getCity());
-        if ( addressCheckerService.checkIfCountryExists(new CheckAddressCommand(address)) ){
+        if (addressCheckerService.checkIfCountryExists(new CheckAddressCommand(address))) {
             User user = userFactory.createUser(
                     createUserCommand.getEmailAddress(),
                     createUserCommand.getCountry(),
@@ -41,10 +41,12 @@ public class RegisterUserService {
                     createUserCommand.getEpochBirthDate()
             );
             usersRepository.save(user);
-            UserIsRegistered userIsRegistered = new UserIsRegistered(this, user.getId(), user.getEmail().getAddress(), user.getCreationDate() );
+            UserIsRegistered userIsRegistered
+                    = new UserIsRegistered(this, user.getId(), user.getEmail().getAddress(),
+                    user.getCreationDate(), user.getUsername());
             applicationEventPublisher.publishEvent(userIsRegistered);
 
-        } else{
+        } else {
             throw new InvalidCountry();
         }
 

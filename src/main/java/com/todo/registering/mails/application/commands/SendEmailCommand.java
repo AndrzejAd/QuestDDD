@@ -11,4 +11,5 @@ public class SendEmailCommand {
     private final String to;
     private final String subject;
     private final String text;
+    private final String username;
 }

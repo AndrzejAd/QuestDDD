@@ -1,12 +1,10 @@
 package com.todo.registering.mails.application;
 
 import com.todo.common.annotations.ApplicationService;
-import com.todo.common.events.UserIsRegistered;
 import com.todo.registering.mails.application.commands.SendEmailCommand;
 import com.todo.registering.mails.domain.Email;
 import com.todo.registering.mails.domain.EmailSendingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +26,8 @@ public class MailSenderService implements EmailService{
         mailSender.sendEmail( new Email(
                     sendEmailCommand.getTo(),
                     sendEmailCommand.getSubject(),
-                    sendEmailCommand.getText()
+                    sendEmailCommand.getText(),
+                    sendEmailCommand.getUsername()
                 )
         );
         mailsInfoRepository.save(new EmailSendingInfo(

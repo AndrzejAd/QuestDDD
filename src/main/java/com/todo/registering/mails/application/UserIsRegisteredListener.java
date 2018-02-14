@@ -1,8 +1,7 @@
-package com.todo.registering.saving.appplication;
+package com.todo.registering.mails.application;
 
 import com.todo.common.annotations.EventListener;
 import com.todo.common.events.UserIsRegistered;
-import com.todo.registering.mails.application.MailSenderService;
 import com.todo.registering.mails.application.commands.SendEmailCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +25,7 @@ public class UserIsRegisteredListener implements ApplicationListener<UserIsRegis
                 new SendEmailCommand(
                         userIsRegistered.getEmail(),
                         "Register email.",
-                        "Hello to the ToDo app!"));
+                        "Hello to the ToDo app!",
+                        userIsRegistered.getUsername()));
     }
 }
