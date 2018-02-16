@@ -1,7 +1,7 @@
 package com.todo.registering.mails.domain;
 
-import com.todo.common.domain.AbstractEntity;
-import com.todo.common.validation.Contract;
+import com.ddd.common.domain.AbstractEntity;
+import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

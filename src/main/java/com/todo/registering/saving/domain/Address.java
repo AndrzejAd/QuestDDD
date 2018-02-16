@@ -1,6 +1,6 @@
 package com.todo.registering.saving.domain;
 
-import com.todo.common.validation.Contract;
+import com.ddd.common.validation.Contract;
 import lombok.*;
 
 import javax.persistence.Embeddable;

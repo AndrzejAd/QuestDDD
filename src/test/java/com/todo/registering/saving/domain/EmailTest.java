@@ -1,6 +1,6 @@
 package com.todo.registering.saving.domain;
 
-import com.todo.common.validation.RegexMatchFailed;
+import com.ddd.common.validation.RegexMatchFailed;
 import org.junit.jupiter.api.Test;
 
 

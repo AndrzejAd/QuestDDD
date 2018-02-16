@@ -1,6 +1,6 @@
 package com.todo.registering.saving.ui;
 
-import com.todo.common.validation.ContractBroken;
+import com.ddd.common.validation.ContractBroken;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

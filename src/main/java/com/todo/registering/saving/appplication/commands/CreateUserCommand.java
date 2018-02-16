@@ -1,6 +1,6 @@
 package com.todo.registering.saving.appplication.commands;
 
-import com.todo.common.annotations.Command;
+import com.ddd.common.annotations.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

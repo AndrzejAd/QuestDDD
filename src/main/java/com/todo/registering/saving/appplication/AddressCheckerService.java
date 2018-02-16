@@ -1,6 +1,6 @@
 package com.todo.registering.saving.appplication;
 
-import com.todo.common.annotations.DomainService;
+import com.ddd.common.annotations.DomainService;
 import com.todo.registering.saving.appplication.commands.CheckAddressCommand;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

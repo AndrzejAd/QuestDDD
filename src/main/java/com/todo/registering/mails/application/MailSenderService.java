@@ -1,6 +1,6 @@
 package com.todo.registering.mails.application;
 
-import com.todo.common.annotations.ApplicationService;
+import com.ddd.common.annotations.ApplicationService;
 import com.todo.registering.mails.application.commands.SendEmailCommand;
 import com.todo.registering.mails.domain.Email;
 import com.todo.registering.mails.domain.EmailSendingInfo;

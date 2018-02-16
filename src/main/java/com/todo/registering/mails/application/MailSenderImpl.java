@@ -1,6 +1,6 @@
 package com.todo.registering.mails.application;
 
-import com.todo.common.annotations.DomainService;
+import com.ddd.common.annotations.DomainService;
 import com.todo.registering.mails.domain.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

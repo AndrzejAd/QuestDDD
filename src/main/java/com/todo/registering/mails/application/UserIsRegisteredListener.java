@@ -1,7 +1,7 @@
 package com.todo.registering.mails.application;
 
-import com.todo.common.annotations.EventListener;
-import com.todo.common.events.UserIsRegistered;
+import com.ddd.common.annotations.EventListener;
+import com.ddd.common.events.UserIsRegistered;
 import com.todo.registering.mails.application.commands.SendEmailCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +20,7 @@ public class UserIsRegisteredListener implements ApplicationListener<UserIsRegis
 
     @Override
     public void onApplicationEvent(UserIsRegistered userIsRegistered) {
-        logger.info("User with id: " + userIsRegistered.getUserId() + " is registered, sending mail.");
+        logger.info("Account with id: " + userIsRegistered.getUserId() + " is registered, sending mail.");
         emailService.sendEmail(
                 new SendEmailCommand(
                         userIsRegistered.getEmail(),

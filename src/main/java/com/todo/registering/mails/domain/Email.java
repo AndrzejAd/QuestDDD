@@ -1,7 +1,7 @@
 package com.todo.registering.mails.domain;
 
-import com.todo.common.annotations.ValueObject;
-import com.todo.common.validation.Contract;
+import com.ddd.common.annotations.ValueObject;
+import com.ddd.common.validation.Contract;
 import lombok.Getter;
 
 import java.time.LocalDate;
