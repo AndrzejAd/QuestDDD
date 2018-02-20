@@ -4,9 +4,10 @@ import com.ddd.common.annotations.Command;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Value;
 
 @Command
-@Data
+@Value
 public class CreateUserCommand {
     private final String emailAddress;
     private final String country;

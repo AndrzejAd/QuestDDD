@@ -6,11 +6,12 @@ import com.todo.activities.domain.Progress;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
 @Command
-@Data
+@Value
 public class AddActivityCommand {
     private long userId;
     private long activitiesListId;

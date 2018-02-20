@@ -4,7 +4,6 @@ import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import com.ddd.common.validation.ContractBroken;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Activity extends AbstractEntity{
-    private long baseAward;
     private long totalAward;
-    private Progress progress;
     private LocalDateTime startDate;
     private boolean isDone;
+    private double multiplier;
+
+    @Enumerated(value = EnumType.STRING)
+    private Progress progress;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn
@@ -32,27 +33,28 @@ public class Activity extends AbstractEntity{
     public Activity(ActivityType activityType, Activities activities) {
         this.activityType = activityType;
         this.activities = activities;
-        this.baseAward = 1000;
-        this.totalAward = baseAward;
+        this.totalAward = 0;
         this.progress = Progress.NOTDONE;
         this.startDate = LocalDateTime.MIN;
         this.isDone = false;
+        this.multiplier = 1;
     }
 
     public void startActivity(){
-        Contract.isTrue( progress != Progress.DONE && progress != Progress.BEINGDONE, ProgressAlreadyStarted::new );
+        Contract.isTrue( progress == Progress.NOTDONE, ActivityAlreadyStarted::new );
         progress = Progress.BEINGDONE;
     }
 
+    /*
+        Award is only counted after finishing activity.
+     */
     public void finishActivity(){
-        Contract.isTrue( progress != Progress.BEINGDONE, ProgressNotStarted::new );
+        Contract.isTrue( progress == Progress.BEINGDONE, ActivityNotStarted::new );
         progress = Progress.DONE;
         isDone = true;
+        totalAward += activityType.getBaseAward() * multiplier;
     }
 
-    public void changeTotalAward(long award){
-        totalAward = award;
-    }
 
     @Override
     public int hashCode() {
@@ -64,7 +66,7 @@ public class Activity extends AbstractEntity{
         return false;
     }
 
-    private class ProgressAlreadyStarted extends ContractBroken{}
+    protected class ActivityAlreadyStarted extends ContractBroken{}
 
-    private class ProgressNotStarted extends ContractBroken{}
+    protected class ActivityNotStarted extends ContractBroken{}
 }

@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ActivityType extends AbstractEntity {
     private String description;
     private Duration expectedDuration;
-    private long multiplier;
+    private long baseAward;
 
    @Override
     public boolean equals(Object o) {
