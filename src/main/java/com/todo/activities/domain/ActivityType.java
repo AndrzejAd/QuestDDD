@@ -1,8 +1,10 @@
 package com.todo.activities.domain;
 
 import com.ddd.common.domain.AbstractEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +16,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ActivityType extends AbstractEntity {
     private String description;
     private Duration expectedDuration;

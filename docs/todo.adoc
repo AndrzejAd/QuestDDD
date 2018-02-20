@@ -4,8 +4,8 @@ Simple application to practice DDD.
 
 Business logic:
 
-. Adding user.
+. Adding account.
 .. Validation of users country.
-. Adding activity to the user.
+. Adding activity to the account.
 . Deleting activity.
 . Sending email after registration.

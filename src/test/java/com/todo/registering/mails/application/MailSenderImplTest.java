@@ -14,11 +14,11 @@ import java.util.List;
 public class MailSenderImplTest {
 
     @Autowired
-    MailSenderImpl mailSenderImpl;
+    private MailSenderImpl mailSenderImpl;
 
     @Test
     public void shouldSendMail(){
-        mailSenderImpl.sendEmail(new Email( "", "", "", "test"));
+        mailSenderImpl.sendEmail(new Email( "test@test", "test", "test", "test"));
 
     }
 
