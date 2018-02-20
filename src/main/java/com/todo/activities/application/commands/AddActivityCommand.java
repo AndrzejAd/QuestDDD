@@ -4,13 +4,13 @@ import com.ddd.common.annotations.Command;
 import com.todo.activities.domain.ActivityType;
 import com.todo.activities.domain.Progress;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Command
-@AllArgsConstructor
-@Getter
+@Data
 public class AddActivityCommand {
     private long userId;
     private long activitiesListId;

@@ -2,11 +2,11 @@ package com.todo.registering.saving.appplication.commands;
 
 import com.ddd.common.annotations.Command;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @Command
-@AllArgsConstructor
-@Getter
+@Data
 public class CreateUserCommand {
     private final String emailAddress;
     private final String country;
