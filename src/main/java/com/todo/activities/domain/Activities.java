@@ -3,7 +3,10 @@ package com.todo.activities.domain;
 import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -13,8 +16,14 @@ import java.util.Set;
 
 @AggregateRoot
 @Entity
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Activities extends AbstractEntity {
-    private long totalExperience;
+
+    @Getter
+    @Formula(value = "SELECT SUM( A.TOTAL_AWARD) \n" +
+            "FROM ACTIVITY A \n" +
+            "WHERE A.ACTIVITIES_ID = id")
+    private double totalExperience;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
@@ -31,6 +40,15 @@ public class Activities extends AbstractEntity {
     public void addActivity(Activity activity){
         Contract.notNull(activity);
         activities.add(activity);
+
+    }
+
+    public void updateTotalExperience(){
+        /*totalExperience = activities
+                .stream()
+                .filter( (activity) -> activity.getProgress() == Progress.DONE)
+                .mapToDouble(Activity::getTotalAward)
+                .sum();*/
     }
 
     public Set<Activity> getActivities() {

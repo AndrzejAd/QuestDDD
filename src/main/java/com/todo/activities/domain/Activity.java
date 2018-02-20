@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -22,8 +23,8 @@ public class Activity extends AbstractEntity{
     @Enumerated(value = EnumType.STRING)
     private Progress progress;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "activity_type_id", nullable = false, referencedColumnName = "id")
     private ActivityType activityType;
 
     @ManyToOne
@@ -58,12 +59,15 @@ public class Activity extends AbstractEntity{
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(getId());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Activity)) return false;
+        Activity that = (Activity) o;
+        return Objects.equals(getId(), that.getId());
     }
 
     protected class ActivityAlreadyStarted extends ContractBroken{}

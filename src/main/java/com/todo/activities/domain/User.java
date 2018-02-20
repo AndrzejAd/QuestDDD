@@ -1,6 +1,8 @@
 package com.todo.activities.domain;
 
 import com.ddd.common.domain.AbstractEntity;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table( name = "Account" )
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
