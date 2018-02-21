@@ -26,7 +26,7 @@ public class HibernateUserRepositoryTest {
     private RegisterUserService registerUserService;
 
     @Test
-    public void userShouldExist() {
+    void userShouldExist() {
         // given
         CreateUserCommand createUserCommand = new CreateUserCommand(
                 testEmailAddress,
@@ -43,7 +43,7 @@ public class HibernateUserRepositoryTest {
     }
 
     @Test
-    public void userShouldntExist() {
+    void userShouldntExist() {
         // given
         CreateUserCommand createUserCommand = new CreateUserCommand(
                 testEmailAddress,

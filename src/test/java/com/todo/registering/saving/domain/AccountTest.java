@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountTest {
 
     @Test
-    public void shouldCreateUser() {
+    void shouldCreateUser() {
         // given
         new Account(new Email("@"),
                 new Address("bbbb", "cccc"),
@@ -24,7 +24,7 @@ public class AccountTest {
     }
 
     @Test
-    public void shouldntCreateUserDueToWrongBirthDate() {
+    void shouldntCreateUserDueToWrongBirthDate() {
         assertThrows(InvalidDate.class, () ->
                 // given
                 new Account(new Email("@"),

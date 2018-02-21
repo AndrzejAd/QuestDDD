@@ -18,7 +18,7 @@ public class MailSenderImplTest {
     private MailSenderImpl mailSenderImpl;
 
     @Test
-    public void shouldSendMail(){
+    void shouldSendMail(){
         mailSenderImpl.sendEmail(new Email( "test@test", "test", "test", "test"));
 
     }

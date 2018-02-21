@@ -25,7 +25,7 @@ public class RegisterAccountServiceTest {
     private SpringDataUserRepository springDataUserRepository;
 
     @Test
-    public void registerUser() {
+    void registerUser() {
         // given
         long dbSize = springDataUserRepository.count();
         CreateUserCommand createUserCommand = new CreateUserCommand(

@@ -32,7 +32,7 @@ public class ActivitiesListTest {
     private ActivityType testActivityType;
 
     @BeforeEach
-    public void setUpUser(){
+    void setUpUser(){
         Account account = accountFactory.createUser("test@test", "Poland", "Krk", "Guy",
                 "Strong",
                 LocalDate.of(1990, Month.APRIL, 25).toEpochDay());
@@ -48,7 +48,7 @@ public class ActivitiesListTest {
     }
 
     @Test
-    public void shouldAddActivity() {
+    void shouldAddActivity() {
         // given
         ActivitiesList testActivitiesList = new ActivitiesList(user);
         Activity activity = new Activity(testActivityType, testActivitiesList);
@@ -67,7 +67,7 @@ public class ActivitiesListTest {
     }
 
     @Test
-    public void shouldPersistActivityViaActivities() {
+    void shouldPersistActivityViaActivities() {
         // given
         ActivitiesList testActivitiesList = new ActivitiesList(user);
         Activity activity = new Activity(testActivityType, testActivitiesList);
@@ -85,7 +85,7 @@ public class ActivitiesListTest {
     }
 
     @Test
-    public void shouldntBeAbleToModifyList() {
+    void shouldntBeAbleToModifyList() {
         // given
         ActivitiesList activitiesList = new ActivitiesList(user);
         Activity activity = new Activity(testActivityType, activitiesList);
@@ -98,7 +98,7 @@ public class ActivitiesListTest {
     }
 
     @Test
-    public void shouldSumExperience(){
+    void shouldSumExperience(){
         // given
         ActivitiesList activitiesList = new ActivitiesList(user);
         Activity activity = new Activity(testActivityType, activitiesList);

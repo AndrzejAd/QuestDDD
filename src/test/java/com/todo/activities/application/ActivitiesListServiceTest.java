@@ -42,7 +42,7 @@ public class ActivitiesListServiceTest {
     private User user;
 
     @BeforeEach
-    public void setUpUser(){
+    void setUpUser(){
         Account account = accountFactory.createUser("test@test", "Poland", "Krk", "Guy",
                 "Strong",
                 LocalDate.of(1990, Month.APRIL, 25).toEpochDay());
@@ -53,16 +53,26 @@ public class ActivitiesListServiceTest {
     }
 
     @Test
-    public void shouldAddActivitiesListToUser() {
+    void shouldAddActivitiesListToUser() {
         //given
         //when
-        activitiesService.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(user.getId()));
+        activitiesService.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(user.getId()) );
         //then
         assertEquals( 1, user.getActivitiesList().size(), "ActivitiesList weren't persisted" );
     }
 
     @Test
-    public void shouldAddNewActivityToActivitiesList() {
+    void shouldThrowUserNotFoundException() {
+        // given
+        // when
+        // then
+        assertThrows(ActivitiesService.UserNotFound.class,
+                () -> activitiesService.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(999) ),
+                "Was able to add activities list to non existent user. ");
+    }
+
+    @Test
+    void shouldAddNewActivityToActivitiesList() {
         //given
         activitiesService.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(user.getId()));
         List<ActivitiesList> activitiesList = user.getActivitiesList();

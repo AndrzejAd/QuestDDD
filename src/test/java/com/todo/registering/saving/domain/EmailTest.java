@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EmailTest {
 
     @Test
-    public void shouldntThrowRegexException(){
+    void shouldntThrowRegexException(){
         new Email("a@b");
     }
 
     @Test
-    public void shouldThrowRegexException(){
+    void shouldThrowRegexException(){
         assertThrows(RegexMatchFailed.class, () -> new Email("abxde"));
     }
 

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ActivityTest {
 
     @Test
-    public void shouldntStartActivity() {
+    void shouldntStartActivity() {
         // given
         ActivitiesList activitiesList = null;
         ActivityType activityType = new ActivityType(
@@ -25,7 +25,7 @@ public class ActivityTest {
     }
 
     @Test
-    public void shouldntFinishActivity() {
+    void shouldntFinishActivity() {
         // given
         ActivitiesList activitiesList = null;
         ActivityType activityType = new ActivityType(
