@@ -9,9 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table( name = "Account" )
@@ -19,15 +17,15 @@ import java.util.Set;
 public class User extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-    private Set<Activities> activities = new HashSet<>();
+    private List<ActivitiesList> activities = new ArrayList<>();
 
-    public void addActivities(Activities activities){
-        Contract.notNull(activities);
-        this.activities.add(activities);
+    public void addActivities(ActivitiesList activitiesList){
+        Contract.notNull(activitiesList);
+        this.activities.add(activitiesList);
     }
 
-    public Set<Activities> getActivities(){
-        return Collections.unmodifiableSet(activities);
+    public List<ActivitiesList> getActivitiesList(){
+        return Collections.unmodifiableList(activities);
     }
 
     @Override

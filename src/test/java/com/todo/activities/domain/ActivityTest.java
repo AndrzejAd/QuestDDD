@@ -10,13 +10,13 @@ public class ActivityTest {
     @Test
     public void shouldntStartActivity() {
         // given
-        Activities activities = null;
+        ActivitiesList activitiesList = null;
         ActivityType activityType = new ActivityType(
                 "test",
                 Duration.ZERO,
                 1000
         );
-        Activity activity = new Activity(activityType, activities);
+        Activity activity = new Activity(activityType, activitiesList);
         // when
         activity.startActivity();
         // then
@@ -27,13 +27,13 @@ public class ActivityTest {
     @Test
     public void shouldntFinishActivity() {
         // given
-        Activities activities = null;
+        ActivitiesList activitiesList = null;
         ActivityType activityType = new ActivityType(
                 "test",
                 Duration.ZERO,
                 1000
         );
-        Activity activity = new Activity(activityType, activities);
+        Activity activity = new Activity(activityType, activitiesList);
         // when
         // then
         assertThrows( Activity.ActivityNotStarted.class, activity::finishActivity,

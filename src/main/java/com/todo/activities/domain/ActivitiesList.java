@@ -9,30 +9,28 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @AggregateRoot
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Activities extends AbstractEntity {
+public class ActivitiesList extends AbstractEntity {
 
     @Getter
     @Formula(value = "SELECT SUM( A.TOTAL_AWARD) \n" +
             "FROM ACTIVITY A \n" +
-            "WHERE A.ACTIVITIES_ID = id")
+            "WHERE A.ACTIVITIES_LIST_ID = id")
     private double totalExperience;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "activities")
-    private Set<Activity> activities = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "activitiesList")
+    private List<Activity> activities = new ArrayList<>();
 
-    public Activities(User user) {
+    public ActivitiesList(User user) {
         super();
         this.totalExperience = 0;
         this.user = user;
@@ -43,8 +41,8 @@ public class Activities extends AbstractEntity {
         activities.add(activity);
     }
 
-    public Set<Activity> getActivities() {
-        return Collections.unmodifiableSet(activities);
+    public List<Activity> getActivities() {
+        return Collections.unmodifiableList(activities);
     }
 
     @Override

@@ -28,12 +28,12 @@ public class Activity extends AbstractEntity{
     private ActivityType activityType;
 
     @ManyToOne
-    @JoinColumn(name="activities_id", nullable = false, referencedColumnName = "id")
-    private Activities activities;
+    @JoinColumn(name="activities_list_id", nullable = false, referencedColumnName = "id")
+    private ActivitiesList activitiesList;
 
-    public Activity(ActivityType activityType, Activities activities) {
+    public Activity(ActivityType activityType, ActivitiesList activitiesList) {
         this.activityType = activityType;
-        this.activities = activities;
+        this.activitiesList = activitiesList;
         this.totalAward = 0;
         this.progress = Progress.NOTDONE;
         this.startDate = LocalDateTime.MIN;

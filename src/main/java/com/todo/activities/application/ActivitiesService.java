@@ -2,33 +2,56 @@ package com.todo.activities.application;
 
 import com.ddd.common.annotations.ApplicationService;
 import com.ddd.common.validation.ContractBroken;
+import com.todo.activities.application.commands.AddActivityCommand;
 import com.todo.activities.application.commands.CreateNewActivitiesListCommand;
 import com.todo.activities.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationService
 public class ActivitiesService {
-    private final ActivitiesFactory activitiesFactory;
-    private final ActivitiesRepository activitiesRepository;
+    private final ActivitiesListFactory activitiesListFactory;
+    private final ActivitiesListRepository activitiesListRepository;
     private final UserRepository userRepository;
+    private final ActivityFactory activityFactory;
+    private final ActivityTypeRepository activityTypeRepository;
 
     @Autowired
-    public ActivitiesService(ActivitiesFactory activitiesFactory, ActivitiesRepository activitiesRepository, UserRepository userRepository) {
-        this.activitiesFactory = activitiesFactory;
-        this.activitiesRepository = activitiesRepository;
+    public ActivitiesService(ActivitiesListFactory activitiesListFactory, ActivitiesListRepository activitiesListRepository,
+                             UserRepository userRepository, ActivityFactory activityFactory, ActivityTypeRepository activityTypeRepository) {
+        this.activitiesListFactory = activitiesListFactory;
+        this.activitiesListRepository = activitiesListRepository;
         this.userRepository = userRepository;
+        this.activityFactory = activityFactory;
+        this.activityTypeRepository = activityTypeRepository;
     }
 
-    public void addActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
-        User user = userRepository
+    public void addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
+        User owningUser = userRepository
                 .find(createNewActivitiesListCommand.getUserId())
                 .orElseThrow(UserNotFound::new);
-        Activities activities = activitiesFactory.createActivities(user);
-        user.addActivities(activities);
-        userRepository.save(user);
+        ActivitiesList activitiesList = activitiesListFactory.createActivities(owningUser);
+        owningUser.addActivities(activitiesList);
+        userRepository.save(owningUser);
     }
 
-    public class UserNotFound extends ContractBroken {
+    public void addActivityToActivityList(AddActivityCommand addActivityCommand){
+        ActivitiesList owningActivitiesList = activitiesListRepository
+                .findById(addActivityCommand.getActivitiesListId())
+                .orElseThrow(ActivitiesListNotFound::new);
+        Activity newActivity = activityFactory.createActivities(
+                addActivityCommand.getDescription(),
+                addActivityCommand.getExpectedDuration(),
+                addActivityCommand.getBaseAward(),
+                owningActivitiesList
+        );
+        owningActivitiesList.addActivity(newActivity);
+        activityTypeRepository.save(newActivity.getActivityType());
+        activitiesListRepository.save(owningActivitiesList);
     }
+
+
+    public class UserNotFound extends ContractBroken { }
+
+    public class ActivitiesListNotFound extends ContractBroken { }
 
 }

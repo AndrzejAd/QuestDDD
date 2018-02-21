@@ -2,16 +2,11 @@ package com.todo.activities.domain;
 
 import com.todo.registering.saving.domain.Account;
 import com.todo.registering.saving.domain.AccountFactory;
-import com.todo.registering.saving.domain.Address;
-import com.todo.registering.saving.domain.Email;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestEntityManager
 @Transactional
-public class ActivitiesTest {
+public class ActivitiesListTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -55,75 +50,73 @@ public class ActivitiesTest {
     @Test
     public void shouldAddActivity() {
         // given
-        Activities testActivities = new Activities(user);
-        Activity activity = new Activity(testActivityType, testActivities);
-        Activity activity1 = new Activity(testActivityType, testActivities);
-        testEntityManager.persist(testActivities);
+        ActivitiesList testActivitiesList = new ActivitiesList(user);
+        Activity activity = new Activity(testActivityType, testActivitiesList);
+        Activity activity1 = new Activity(testActivityType, testActivitiesList);
+        testEntityManager.persist(testActivitiesList);
         testEntityManager.persist(testActivityType);
         testEntityManager.persist(activity);
         testEntityManager.persist(activity1);
         // when
         testEntityManager.flush();
         testEntityManager.clear();
-        testActivities = testEntityManager.find(Activities.class, testActivities.getId());
+        testActivitiesList = testEntityManager.find(ActivitiesList.class, testActivitiesList.getId());
         // then
-        assertEquals( 2, testActivities.getActivities().size(),
+        assertEquals( 2, testActivitiesList.getActivities().size(),
                 "List size differs.");
     }
 
     @Test
     public void shouldPersistActivityViaActivities() {
         // given
-        Activities testActivities = new Activities(user);
-        Activity activity = new Activity(testActivityType, testActivities);
-        Activity activity1 = new Activity(testActivityType, testActivities);
+        ActivitiesList testActivitiesList = new ActivitiesList(user);
+        Activity activity = new Activity(testActivityType, testActivitiesList);
+        Activity activity1 = new Activity(testActivityType, testActivitiesList);
         // when
-        testActivities.addActivity(activity);
+        testActivitiesList.addActivity(activity);
         testEntityManager.persist(testActivityType);
-        testEntityManager.persist(testActivities);
-        testActivities.addActivity(activity1);
-        testEntityManager.persist(testActivities);
+        testEntityManager.persist(testActivitiesList);
+        testActivitiesList.addActivity(activity1);
+        testEntityManager.persist(testActivitiesList);
         // then
-        Activities activities = testEntityManager.find(Activities.class, testActivities.getId());
-        assertEquals( 2, activities.getActivities().size(),
+        ActivitiesList activitiesList = testEntityManager.find(ActivitiesList.class, testActivitiesList.getId());
+        assertEquals( 2, activitiesList.getActivities().size(),
                 "Objects weren't persisted properly");
     }
 
     @Test
     public void shouldntBeAbleToModifyList() {
         // given
-        Activities activities = new Activities(user);
-        Activity activity = new Activity(testActivityType, activities);
-        Activity activity1 = new Activity(testActivityType, activities);
+        ActivitiesList activitiesList = new ActivitiesList(user);
+        Activity activity = new Activity(testActivityType, activitiesList);
+        Activity activity1 = new Activity(testActivityType, activitiesList);
         // when
-        activities.addActivity(activity);
+        activitiesList.addActivity(activity);
         // then
-        assertThrows( UnsupportedOperationException.class, () -> activities.getActivities().add(activity1),
+        assertThrows( UnsupportedOperationException.class, () -> activitiesList.getActivities().add(activity1),
                 "Was able to add activity.");
     }
 
     @Test
     public void shouldSumExperience(){
         // given
-        Activities activities = new Activities(user);
-        Activity activity = new Activity(testActivityType, activities);
-        Activity activity1 = new Activity(testActivityType, activities);
+        ActivitiesList activitiesList = new ActivitiesList(user);
+        Activity activity = new Activity(testActivityType, activitiesList);
+        Activity activity1 = new Activity(testActivityType, activitiesList);
         activity.startActivity();
         activity.finishActivity();
         activity1.startActivity();
         activity1.finishActivity();
         testEntityManager.persist(testActivityType);
-        testEntityManager.persist(activities);
+        testEntityManager.persist(activitiesList);
         testEntityManager.persist(activity);
         testEntityManager.persist(activity1);
         testEntityManager.flush();
         testEntityManager.clear();
         // when
-
-        activities = testEntityManager.find(Activities.class, activities.getId());
-
+        activitiesList = testEntityManager.find(ActivitiesList.class, activitiesList.getId());
         // then
-        assertEquals( 2000, activities.getTotalExperience(),
+        assertEquals( 2000, activitiesList.getTotalExperience(),
                 "Total experience differs from what was expected");
     }
 

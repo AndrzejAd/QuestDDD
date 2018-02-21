@@ -8,16 +8,14 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Value;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Command
 @Value
 public class AddActivityCommand {
-    private long userId;
     private long activitiesListId;
-    private ActivityType activityType;
-    private long award;
-    private Progress progress;
-    private LocalDateTime statDate;
-    private boolean isDone;
+    private String description;
+    private Duration expectedDuration;
+    private long baseAward;
 }

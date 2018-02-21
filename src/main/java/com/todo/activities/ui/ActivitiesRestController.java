@@ -21,7 +21,7 @@ public class ActivitiesRestController {
 
     @RequestMapping(path = "/addNewActivitiesList", method = RequestMethod.POST)
     public ResponseEntity<String> addNewActivitiesList(@RequestParam("email") final long userId){
-        activitiesService.addActivitiesListToUser(
+        activitiesService.addNewActivitiesListToUser(
                 new CreateNewActivitiesListCommand(userId)
         );
         return new ResponseEntity<>("List created!", HttpStatus.CREATED);
