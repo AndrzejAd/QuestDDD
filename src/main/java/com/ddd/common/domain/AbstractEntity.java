@@ -21,6 +21,10 @@ public abstract class AbstractEntity {
 
     protected LocalDate creationDate;
 
+    public AbstractEntity() {
+        creationDate = LocalDate.now();
+    }
+
     @Override
     abstract public int hashCode();
 

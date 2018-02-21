@@ -31,4 +31,10 @@ public class HibernateUserRepository implements UserRepository {
     public Optional<User> find(long userId) {
         return Optional.ofNullable(entityManager.find(User.class, userId));
     }
+
+    @Override
+    public User save(User user) {
+        entityManager.persist(user);
+        return user;
+    }
 }

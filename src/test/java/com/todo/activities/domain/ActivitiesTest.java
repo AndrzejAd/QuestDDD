@@ -1,6 +1,7 @@
 package com.todo.activities.domain;
 
 import com.todo.registering.saving.domain.Account;
+import com.todo.registering.saving.domain.AccountFactory;
 import com.todo.registering.saving.domain.Address;
 import com.todo.registering.saving.domain.Email;
 import org.junit.jupiter.api.AfterAll;
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
 
@@ -20,18 +23,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@DataJpaTest
+@AutoConfigureTestEntityManager
+@Transactional
 public class ActivitiesTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
+
+    @Autowired
+    private AccountFactory accountFactory;
 
     private User user;
     private ActivityType testActivityType;
 
     @BeforeEach
     public void setUpUser(){
-        Account account = createUser("test@test", "Poland", "Krk", "Guy",
+        Account account = accountFactory.createUser("test@test", "Poland", "Krk", "Guy",
                 "Strong",
                 LocalDate.of(1990, Month.APRIL, 25).toEpochDay());
         testEntityManager.persist(account);
@@ -62,6 +69,24 @@ public class ActivitiesTest {
         // then
         assertEquals( 2, testActivities.getActivities().size(),
                 "List size differs.");
+    }
+
+    @Test
+    public void shouldPersistActivityViaActivities() {
+        // given
+        Activities testActivities = new Activities(user);
+        Activity activity = new Activity(testActivityType, testActivities);
+        Activity activity1 = new Activity(testActivityType, testActivities);
+        // when
+        testActivities.addActivity(activity);
+        testEntityManager.persist(testActivityType);
+        testEntityManager.persist(testActivities);
+        testActivities.addActivity(activity1);
+        testEntityManager.persist(testActivities);
+        // then
+        Activities activities = testEntityManager.find(Activities.class, testActivities.getId());
+        assertEquals( 2, activities.getActivities().size(),
+                "Objects weren't persisted properly");
     }
 
     @Test
@@ -100,20 +125,6 @@ public class ActivitiesTest {
         // then
         assertEquals( 2000, activities.getTotalExperience(),
                 "Total experience differs from what was expected");
-    }
-
-    private Account createUser(final String emailAddress, final String country, final String city,
-            final String username, final String password, final long birthDate) {
-        Address address = new Address(country, city);
-
-        Email email = new Email(emailAddress);
-
-        LocalDate jDate = LocalDate.now();
-        LocalDate bDate = Instant.ofEpochMilli(birthDate).atZone(ZoneId.systemDefault()).toLocalDate();
-
-        Account account = new Account(email, address, username, password, jDate, bDate, 0);
-
-        return account;
     }
 
 

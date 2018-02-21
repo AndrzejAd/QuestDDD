@@ -1,6 +1,7 @@
 package com.todo.activities.domain;
 
 import com.ddd.common.domain.AbstractEntity;
+import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +22,12 @@ public class User extends AbstractEntity {
     private Set<Activities> activities = new HashSet<>();
 
     public void addActivities(Activities activities){
+        Contract.notNull(activities);
+        this.activities.add(activities);
+    }
 
+    public Set<Activities> getActivities(){
+        return Collections.unmodifiableSet(activities);
     }
 
     @Override

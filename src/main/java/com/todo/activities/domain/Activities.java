@@ -33,6 +33,7 @@ public class Activities extends AbstractEntity {
     private Set<Activity> activities = new HashSet<>();
 
     public Activities(User user) {
+        super();
         this.totalExperience = 0;
         this.user = user;
     }
@@ -40,15 +41,6 @@ public class Activities extends AbstractEntity {
     public void addActivity(Activity activity){
         Contract.notNull(activity);
         activities.add(activity);
-
-    }
-
-    public void updateTotalExperience(){
-        /*totalExperience = activities
-                .stream()
-                .filter( (activity) -> activity.getProgress() == Progress.DONE)
-                .mapToDouble(Activity::getTotalAward)
-                .sum();*/
     }
 
     public Set<Activity> getActivities() {
