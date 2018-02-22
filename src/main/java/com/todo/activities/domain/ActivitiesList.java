@@ -6,6 +6,7 @@ import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -17,12 +18,6 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ActivitiesList extends AbstractEntity {
 
-    @Getter
-    @Formula(value = "SELECT SUM( A.TOTAL_AWARD) \n" +
-            "FROM ACTIVITY A \n" +
-            "WHERE A.ACTIVITIES_LIST_ID = id")
-    private double totalExperience;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private User user;
@@ -32,7 +27,6 @@ public class ActivitiesList extends AbstractEntity {
 
     public ActivitiesList(User user) {
         super();
-        this.totalExperience = 0;
         this.user = user;
     }
 
@@ -45,6 +39,13 @@ public class ActivitiesList extends AbstractEntity {
         return Collections.unmodifiableList(activities);
     }
 
+    public double getTotalExperienceForThisList(){
+        return activities
+                .stream()
+                .mapToDouble(Activity::getTotalAward)
+                .sum();
+    }
+
     @Override
     public int hashCode() {
         return 0;
@@ -53,5 +54,13 @@ public class ActivitiesList extends AbstractEntity {
     @Override
     public boolean equals(Object obj) {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivitiesList{" +
+                ", userID=" + user.getId() +
+                ", activities=" + activities +
+                '}';
     }
 }

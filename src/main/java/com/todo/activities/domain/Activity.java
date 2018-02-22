@@ -6,6 +6,7 @@ import com.ddd.common.validation.ContractBroken;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -68,6 +69,19 @@ public class Activity extends AbstractEntity{
         if (!(o instanceof Activity)) return false;
         Activity that = (Activity) o;
         return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "totalAward=" + totalAward +
+                ", startDate=" + startDate +
+                ", isDone=" + isDone +
+                ", multiplier=" + multiplier +
+                ", progress=" + progress +
+                ", activityType=" + activityType +
+                ", activitiesListId=" + activitiesList.getId() +
+                '}';
     }
 
     protected class ActivityAlreadyStarted extends ContractBroken{}

@@ -23,9 +23,7 @@ public class AccountFactory {
         LocalDate jDate = LocalDate.now();
         LocalDate bDate = Instant.ofEpochMilli(birthDate).atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Account account = new Account(email, address, username, password, jDate, bDate, 0);
-
-        return account;
+        return new Account(email, address, username, password, jDate, bDate, 0);
     }
 
 

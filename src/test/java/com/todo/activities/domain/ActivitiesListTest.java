@@ -116,7 +116,7 @@ public class ActivitiesListTest {
         // when
         activitiesList = testEntityManager.find(ActivitiesList.class, activitiesList.getId());
         // then
-        assertEquals( 2000, activitiesList.getTotalExperience(),
+        assertEquals( 2000, activitiesList.getTotalExperienceForThisList(),
                 "Total experience differs from what was expected");
     }
 

@@ -3,7 +3,11 @@ package com.todo.activities.domain;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Formula;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,13 +32,30 @@ public class User extends AbstractEntity {
         return Collections.unmodifiableList(activities);
     }
 
-    @Override
-    public int hashCode() {
-        return 0;
+    public double getUserExperience(){
+        return activities
+                .stream()
+                .mapToDouble(ActivitiesList::getTotalExperienceForThisList)
+                .sum();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return false;
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User that = (User) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "activities=" + activities +
+                '}';
     }
 }

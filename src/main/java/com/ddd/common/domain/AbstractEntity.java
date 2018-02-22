@@ -19,7 +19,7 @@ public abstract class AbstractEntity {
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private int version;
 
-    protected LocalDate creationDate;
+    protected final LocalDate creationDate;
 
     public AbstractEntity() {
         creationDate = LocalDate.now();
