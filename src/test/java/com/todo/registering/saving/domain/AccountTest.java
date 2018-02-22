@@ -18,7 +18,7 @@ public class AccountTest {
                 "test",
                 "test",
                 LocalDate.now(),
-                LocalDate.of(1992, Month.JUNE, 25), 0);
+                LocalDate.of(1992, Month.JUNE, 25));
         // then
         assertTrue(true);
     }
@@ -32,7 +32,7 @@ public class AccountTest {
                         "test",
                         "test",
                         LocalDate.now(),
-                        LocalDate.of(1500, Month.JUNE, 25), 0),
+                        LocalDate.of(1500, Month.JUNE, 25)),
                 // then
                 "Account not created due to wrong birthday");
     }

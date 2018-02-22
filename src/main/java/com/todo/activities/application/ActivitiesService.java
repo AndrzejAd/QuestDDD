@@ -11,23 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationService
 public class ActivitiesService {
-    private final ActivitiesListFactory activitiesListFactory;
-    private final ActivitiesListRepository activitiesListRepository;
+
     private final UserRepository userRepository;
-    private final ActivityFactory activityFactory;
+    private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
     private final ActivityRepository activityRepository;
+    private final ActivityFactory activityFactory;
+    private final ActivitiesListFactory activitiesListFactory;
+    private final ExperienceCalcService experienceCalcService;
 
     @Autowired
     public ActivitiesService(ActivitiesListFactory activitiesListFactory, ActivitiesListRepository activitiesListRepository,
                              UserRepository userRepository, ActivityFactory activityFactory,
-                             ActivityTypeRepository activityTypeRepository, ActivityRepository activityRepository) {
+                             ActivityTypeRepository activityTypeRepository, ActivityRepository activityRepository,
+                             ExperienceCalcService experienceCalcService) {
         this.activitiesListFactory = activitiesListFactory;
         this.activitiesListRepository = activitiesListRepository;
         this.userRepository = userRepository;
         this.activityFactory = activityFactory;
         this.activityTypeRepository = activityTypeRepository;
         this.activityRepository = activityRepository;
+        this.experienceCalcService = experienceCalcService;
     }
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
@@ -44,14 +48,11 @@ public class ActivitiesService {
         ActivitiesList owningActivitiesList = activitiesListRepository
                 .findById(addActivityCommand.getActivitiesListId())
                 .orElseThrow(ActivitiesListNotFound::new);
-        Activity newActivity = activityFactory.createActivities(
-                addActivityCommand.getDescription(),
-                addActivityCommand.getExpectedDuration(),
-                addActivityCommand.getBaseAward(),
-                owningActivitiesList
-        );
+        ActivityType typeOfActivity = activityTypeRepository
+                .findById(addActivityCommand.getActivityTypeId())
+                .orElseThrow(ActivityTypeNotFound::new);
+        Activity newActivity = activityFactory.createActivities(typeOfActivity, owningActivitiesList);
         owningActivitiesList.addActivity(newActivity);
-        activityTypeRepository.save(newActivity.getActivityType());
         activityRepository.save(newActivity);
         activitiesListRepository.save(owningActivitiesList);
         return newActivity;
@@ -69,7 +70,10 @@ public class ActivitiesService {
         Activity activity = activityRepository
                 .findById(finishActivityCommand.getActivityId())
                 .orElseThrow(ActivityNotFound::new);
+        User owningUser = userRepository.find(activity.getActivitiesList().getId()).get();
+        ActivitiesList owningActivitiesList = activity.getActivitiesList();
         activity.finishActivity();
+        activity.setAward(experienceCalcService.calculateExperienceGain(activity, owningActivitiesList, owningUser ));
         return activityRepository.save(activity);
     }
 
@@ -78,5 +82,7 @@ public class ActivitiesService {
     public class ActivitiesListNotFound extends ContractBroken { }
 
     public class ActivityNotFound extends ContractBroken { }
+
+    public class ActivityTypeNotFound extends ContractBroken { }
 
 }

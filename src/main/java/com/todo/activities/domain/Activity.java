@@ -6,7 +6,6 @@ import com.ddd.common.validation.ContractBroken;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,10 +15,9 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Activity extends AbstractEntity{
-    private long totalAward;
+    private long award;
     private LocalDateTime startDate;
     private boolean isDone;
-    private double multiplier;
 
     @Enumerated(value = EnumType.STRING)
     private Progress progress;
@@ -33,13 +31,13 @@ public class Activity extends AbstractEntity{
     private ActivitiesList activitiesList;
 
     public Activity(ActivityType activityType, ActivitiesList activitiesList) {
+        super();
         this.activityType = activityType;
         this.activitiesList = activitiesList;
-        this.totalAward = 0;
+        this.award = 0;
         this.progress = Progress.NOTDONE;
         this.startDate = LocalDateTime.MIN;
         this.isDone = false;
-        this.multiplier = 1;
     }
 
     public void startActivity(){
@@ -54,9 +52,11 @@ public class Activity extends AbstractEntity{
         Contract.isTrue( progress == Progress.BEINGDONE, ActivityNotStarted::new );
         progress = Progress.DONE;
         isDone = true;
-        totalAward += activityType.getBaseAward() * multiplier;
     }
 
+    public void setAward(long award){
+        this.award = award;
+    }
 
     @Override
     public int hashCode() {
@@ -74,10 +74,9 @@ public class Activity extends AbstractEntity{
     @Override
     public String toString() {
         return "Activity{" +
-                "totalAward=" + totalAward +
+                "award=" + award +
                 ", startDate=" + startDate +
                 ", isDone=" + isDone +
-                ", multiplier=" + multiplier +
                 ", progress=" + progress +
                 ", activityType=" + activityType +
                 ", activitiesListId=" + activitiesList.getId() +

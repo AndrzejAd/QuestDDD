@@ -3,6 +3,7 @@ package com.todo.activities.application;
 import com.todo.activities.application.commands.AddActivityCommand;
 import com.todo.activities.application.commands.CreateNewActivitiesListCommand;
 import com.todo.activities.domain.ActivitiesList;
+import com.todo.activities.domain.ActivityType;
 import com.todo.activities.domain.User;
 import com.todo.registering.saving.domain.Account;
 import com.todo.registering.saving.domain.AccountFactory;
@@ -40,6 +41,7 @@ public class ActivitiesListServiceTest {
     private AccountFactory accountFactory;
 
     private User user;
+    private ActivityType testActivityType;
 
     @BeforeEach
     void setUpUser(){
@@ -50,6 +52,12 @@ public class ActivitiesListServiceTest {
         testEntityManager.flush();
         testEntityManager.clear();
         user = testEntityManager.find(User.class, testEntityManager.getId(account));
+        testActivityType = new ActivityType(
+                "test",
+                Duration.ZERO,
+                1000
+        );
+        testEntityManager.persist(testActivityType);
     }
 
     @Test
@@ -79,9 +87,7 @@ public class ActivitiesListServiceTest {
         // when
         activitiesService.addActivityToActivityList( new AddActivityCommand(
                 activitiesList.get(0).getId(),
-                "test",
-                Duration.ZERO,
-                1000
+                testActivityType.getId()
         ));
         // then
         assertEquals( 1, user.getActivitiesList().get(0).getActivities().size(),

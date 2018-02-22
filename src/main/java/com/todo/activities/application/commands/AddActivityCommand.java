@@ -15,7 +15,5 @@ import java.time.LocalDateTime;
 @Value
 public class AddActivityCommand {
     private long activitiesListId;
-    private String description;
-    private Duration expectedDuration;
-    private long baseAward;
+    private long activityTypeId;
 }

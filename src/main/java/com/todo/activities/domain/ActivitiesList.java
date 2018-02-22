@@ -4,10 +4,7 @@ import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.*;
@@ -42,7 +39,7 @@ public class ActivitiesList extends AbstractEntity {
     public double getTotalExperienceForThisList(){
         return activities
                 .stream()
-                .mapToDouble(Activity::getTotalAward)
+                .mapToDouble(Activity::getAward)
                 .sum();
     }
 

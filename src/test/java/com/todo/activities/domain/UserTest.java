@@ -57,6 +57,7 @@ class UserTest {
                 Duration.ZERO,
                 1000
         );
+        testEntityManager.persist(testActivityType);
     }
 
     @Test
@@ -69,24 +70,16 @@ class UserTest {
         // when
         Activity activity1 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                "test",
-                Duration.ZERO,
-                1500));
+                testActivityType.getId()));
         Activity activity2 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                "test1",
-                Duration.ZERO,
-                500));
+                testActivityType.getId()));
         Activity activity3 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList1.getId(),
-                "test",
-                Duration.ZERO,
-                1500));
+                testActivityType.getId()));
         Activity activity4 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList1.getId(),
-                "test1",
-                Duration.ZERO,
-                500));
+                testActivityType.getId()));
         activitiesService.startActivity(new StartActivityCommand( activity1.getId() ));
         activitiesService.finishActivity(new FinishActivityCommand( activity1.getId()));
         activitiesService.startActivity(new StartActivityCommand( activity2.getId() ));
@@ -110,24 +103,16 @@ class UserTest {
         // when
         Activity activity1 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                "test",
-                Duration.ZERO,
-                1500));
+                testActivityType.getId()));
         Activity activity2 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                "test1",
-                Duration.ZERO,
-                500));
+                testActivityType.getId()));
         Activity activity3 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList1.getId(),
-                "test",
-                Duration.ZERO,
-                1500));
+                testActivityType.getId()));
         Activity activity4 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList1.getId(),
-                "test1",
-                Duration.ZERO,
-                500));
+                testActivityType.getId()));
         activitiesService.startActivity(new StartActivityCommand( activity1.getId() ));
         activitiesService.startActivity(new StartActivityCommand( activity2.getId() ));
         activitiesService.startActivity(new StartActivityCommand( activity3.getId() ));
