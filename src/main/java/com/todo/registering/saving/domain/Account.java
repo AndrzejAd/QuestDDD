@@ -34,9 +34,10 @@ public class Account extends AbstractEntity{
     private String password;
     private LocalDate joiningDate;
     private LocalDate birthDate;
-    private long experience;
+    private int level;
+    private double totalUserExperience;
 
-    public Account(Email email, Address address, String username, String password, LocalDate joiningDate, LocalDate birthDate, long experience) {
+    public Account(Email email, Address address, String username, String password, LocalDate joiningDate, LocalDate birthDate) {
         Contract.notNull(email, address, username, password, joiningDate, birthDate);
         Contract.matchesSize(username, 3, 100);
         Contract.matchesSize(password, 3, 30);
@@ -48,6 +49,7 @@ public class Account extends AbstractEntity{
         this.password = password;
         this.joiningDate = joiningDate;
         this.birthDate = birthDate;
-        this.experience = experience;
+        this.totalUserExperience = 0;
+        this.level = 0;
     }
 }
