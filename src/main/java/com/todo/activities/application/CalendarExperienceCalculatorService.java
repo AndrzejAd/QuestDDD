@@ -3,6 +3,10 @@ package com.todo.activities.application;
 import com.ddd.common.annotations.DomainService;
 import com.todo.activities.domain.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @DomainService
 public class CalendarExperienceCalculatorService implements ExperienceCalcService{
 
@@ -10,10 +14,9 @@ public class CalendarExperienceCalculatorService implements ExperienceCalcServic
     public long calculateExperienceGain(Activity activity, ActivitiesList activitiesList, User user) {
         ActivityType activityType = activity.getActivityType();
         long baseMultiplier = 1;
-        if ( checkIfItsOnlyActivityOfThatTypeInList(user, activityType.getId()) ){
-            baseMultiplier += 2;
-        }
+        if ( checkIfItsOnlyActivityOfThatTypeInList(user, activityType.getId()) ){ baseMultiplier += 2; }
         baseMultiplier += calculateBonusMultiplierForActiveActivities(activitiesList);
+        baseMultiplier += dayOfTheWeekBonus(activity);
         return activityType.getBaseAward() * baseMultiplier;
     }
 
@@ -44,7 +47,33 @@ public class CalendarExperienceCalculatorService implements ExperienceCalcServic
         return bonus;
     }
 
+    /**
+     * Monday = bonus: + 2
+     * Thursday, Wednesday = bonus: + 1
+     * Thursday, Friday = bonus: + 0
+     * Saturday, Sunday = bonus: + 1
+     * @param activity
+     * @return
+     */
+    protected double dayOfTheWeekBonus(Activity activity){
+        double bonus = 0;
+        DayOfWeek dayOfWeek = activity.getFinishDateTime().map(LocalDateTime::getDayOfWeek).orElse(DayOfWeek.FRIDAY);
+        switch (dayOfWeek){
+            case MONDAY:
+                bonus += 2;
+                break;
 
+            case THURSDAY:
+            case FRIDAY:
+                bonus += 0;
+                break;
+
+            default:
+                bonus += 1;
+                break;
+        }
+        return bonus;
+    }
 
 }
 

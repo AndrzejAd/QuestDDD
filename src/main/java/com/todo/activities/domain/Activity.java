@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Getter @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Activity extends AbstractEntity{
     private long award;
     private LocalDateTime startDate;
+    private LocalDateTime finishDateTime;
     private boolean isDone;
     private long longitude;
     private long latitude;
@@ -33,13 +35,12 @@ public class Activity extends AbstractEntity{
 
     public Activity(ActivityType activityType, ActivitiesList activitiesList, long longitude, long latitude) {
         super();
-        Contract.isBetween(longitude, 180, -180,  WrongLatitudeOrLongitude::new);
-        Contract.isBetween(latitude, 85.05, -85.05, WrongLatitudeOrLongitude::new);
+        Contract.isBetween(longitude, -180,180,   WrongLatitudeOrLongitude::new);
+        Contract.isBetween(latitude, -85.05,85.05,  WrongLatitudeOrLongitude::new);
         this.activityType = activityType;
         this.activitiesList = activitiesList;
         this.award = 0;
         this.progress = Progress.NOTDONE;
-        this.startDate = LocalDateTime.MIN;
         this.isDone = false;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -48,6 +49,7 @@ public class Activity extends AbstractEntity{
 
     public void startActivity(){
         Contract.isTrue( progress == Progress.NOTDONE, ActivityAlreadyStarted::new );
+        startDate = LocalDateTime.now();
         progress = Progress.BEINGDONE;
     }
 
@@ -58,10 +60,20 @@ public class Activity extends AbstractEntity{
         Contract.isTrue( progress == Progress.BEINGDONE, ActivityNotStarted::new );
         progress = Progress.DONE;
         isDone = true;
+        finishDateTime = LocalDateTime.now();
     }
 
     public void setAward(long award){
         this.award = award;
+    }
+
+
+    public Optional<LocalDateTime> getStartDate() {
+        return Optional.ofNullable(startDate);
+    }
+
+    public Optional<LocalDateTime> getFinishDateTime() {
+        return Optional.of(finishDateTime);
     }
 
     @Override

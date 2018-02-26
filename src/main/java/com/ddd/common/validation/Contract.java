@@ -33,9 +33,9 @@ public class Contract {
         isTrue( value.doubleValue() < max.doubleValue() && value.doubleValue() > min.doubleValue(), WrongValue::new );
     }
 
-    public static <T extends Number, E extends ContractBroken> void isBetween( T value, T max, T min, Supplier<E> exceptionSupplier){
-        notNull(value, max, min);
-        isTrue( value.doubleValue() < max.doubleValue() && value.doubleValue() > min.doubleValue(), exceptionSupplier::get );
+    public static <T extends Number, E extends ContractBroken> void isBetween( T value, T min, T max, Supplier<E> exceptionSupplier){
+        notNull(value, min, max);
+        isTrue( value.doubleValue() <= max.doubleValue() && value.doubleValue() >= min.doubleValue(), exceptionSupplier::get );
     }
 
     public static <T extends ContractBroken> void isTrue(boolean condition, Supplier<T> exceptionSupplier){
