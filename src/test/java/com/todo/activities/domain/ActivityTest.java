@@ -8,6 +8,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ActivityTest {
 
     @Test
+    void shouldntCreateActivity() {
+        // given
+        ActivitiesList activitiesList = null;
+        ActivityType activityType = new ActivityType(
+                "test",
+                Duration.ZERO,
+                1000
+        );
+        // when
+        // then
+        assertThrows(Activity.WrongLatitudeOrLongitude.class,
+                () -> new Activity(activityType, activitiesList, -5555, 5555));
+    }
+
+    @Test
     void shouldntStartActivity() {
         // given
         ActivitiesList activitiesList = null;

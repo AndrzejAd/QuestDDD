@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestEntityManager
 @Transactional
-public class ActivitiesListServiceTest {
+public class ActivitiesServiceTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -59,6 +59,8 @@ public class ActivitiesListServiceTest {
         );
         testEntityManager.persist(testActivityType);
     }
+
+
 
     @Test
     void shouldAddActivitiesListToUser() {

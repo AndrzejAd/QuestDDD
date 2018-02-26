@@ -1,4 +1,4 @@
-package com.todo.registering.mails.domain;
+package com.todo.mails.domain;
 
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;

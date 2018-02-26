@@ -1,8 +1,8 @@
-package com.todo.registering.mails.application;
+package com.todo.mails.application;
 
 import com.ddd.common.annotations.EventListener;
 import com.ddd.common.events.UserIsRegistered;
-import com.todo.registering.mails.application.commands.SendEmailCommand;
+import com.todo.mails.application.commands.SendEmailCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

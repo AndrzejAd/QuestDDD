@@ -1,9 +1,9 @@
-package com.todo.registering.mails.application;
+package com.todo.mails.application;
 
 import com.ddd.common.annotations.ApplicationService;
-import com.todo.registering.mails.application.commands.SendEmailCommand;
-import com.todo.registering.mails.domain.Email;
-import com.todo.registering.mails.domain.EmailSendingInfo;
+import com.todo.mails.application.commands.SendEmailCommand;
+import com.todo.mails.domain.Email;
+import com.todo.mails.domain.EmailSendingInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

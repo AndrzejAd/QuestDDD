@@ -1,13 +1,11 @@
-package com.todo.registering.mails.domain;
+package com.todo.mails.domain;
 
-import com.ddd.common.annotations.ValueObject;
 import com.ddd.common.validation.Contract;
-import lombok.Getter;
+import lombok.Value;
 
 import java.time.LocalDate;
 
-@ValueObject
-@Getter
+@Value
 public class Email {
     private final String address;
     private final String subject;
