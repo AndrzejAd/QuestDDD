@@ -18,6 +18,8 @@ public class Activity extends AbstractEntity{
     private long award;
     private LocalDateTime startDate;
     private boolean isDone;
+    private long longitude;
+    private long latitude;
 
     @Enumerated(value = EnumType.STRING)
     private Progress progress;
@@ -30,7 +32,7 @@ public class Activity extends AbstractEntity{
     @JoinColumn(name="activities_list_id", nullable = false, referencedColumnName = "id")
     private ActivitiesList activitiesList;
 
-    public Activity(ActivityType activityType, ActivitiesList activitiesList) {
+    public Activity(ActivityType activityType, ActivitiesList activitiesList, long longitude, long latitude) {
         super();
         this.activityType = activityType;
         this.activitiesList = activitiesList;
@@ -38,6 +40,8 @@ public class Activity extends AbstractEntity{
         this.progress = Progress.NOTDONE;
         this.startDate = LocalDateTime.MIN;
         this.isDone = false;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public void startActivity(){

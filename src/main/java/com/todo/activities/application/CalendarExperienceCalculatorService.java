@@ -5,18 +5,16 @@ import com.todo.activities.domain.*;
 
 @DomainService
 public class CalendarExperienceCalculatorService implements ExperienceCalcService{
-    private final double maxBonusForFirstActivities = 6;
 
     @Override
     public long calculateExperienceGain(Activity activity, ActivitiesList activitiesList, User user) {
         ActivityType activityType = activity.getActivityType();
         long baseMultiplier = 1;
-        long baseAward = activity.getAward();
         if ( checkIfItsOnlyActivityOfThatTypeInList(user, activityType.getId()) ){
             baseMultiplier += 2;
         }
         baseMultiplier += calculateBonusMultiplierForActiveActivities(activitiesList);
-        return baseAward * baseMultiplier;
+        return activityType.getBaseAward() * baseMultiplier;
     }
 
     protected boolean checkIfItsOnlyActivityOfThatTypeInList(User user, long activityTypeId){
@@ -45,6 +43,8 @@ public class CalendarExperienceCalculatorService implements ExperienceCalcServic
         }
         return bonus;
     }
+
+
 
 }
 

@@ -61,66 +61,34 @@ class UserTest {
     }
 
     @Test
-    void shouldSumTotalExperience() {
+    void shouldSumExperience() {
         // given
         activitiesService.addNewActivitiesListToUser(new CreateNewActivitiesListCommand(user.getId()));
         activitiesService.addNewActivitiesListToUser(new CreateNewActivitiesListCommand(user.getId()));
         ActivitiesList activitiesList = user.getActivitiesList().get(0);
         ActivitiesList activitiesList1 = user.getActivitiesList().get(1);
-        // when
         Activity activity1 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                testActivityType.getId()));
+                testActivityType.getId(),
+                0, 0));
         Activity activity2 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList.getId(),
-                testActivityType.getId()));
+                testActivityType.getId(),
+                0, 0));
         Activity activity3 = activitiesService.addActivityToActivityList(new AddActivityCommand(
                 activitiesList1.getId(),
-                testActivityType.getId()));
-        Activity activity4 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
-                activitiesList1.getId(),
-                testActivityType.getId()));
-        activitiesService.startActivity(new StartActivityCommand( activity1.getId() ));
-        activitiesService.finishActivity(new FinishActivityCommand( activity1.getId()));
-        activitiesService.startActivity(new StartActivityCommand( activity2.getId() ));
-        activitiesService.finishActivity(new FinishActivityCommand( activity2.getId()));
-        activitiesService.startActivity(new StartActivityCommand( activity3.getId() ));
-        activitiesService.finishActivity(new FinishActivityCommand( activity3.getId()));
-        activitiesService.startActivity(new StartActivityCommand( activity4.getId() ));
-        activitiesService.finishActivity(new FinishActivityCommand( activity4.getId()));
-        // then
-        assertEquals( 4000, user.getUserExperience(), "User total experience differs.");
-    }
-
-
-    @Test
-    void shouldOnlyFinishedActivities() {
-        // given
-        activitiesService.addNewActivitiesListToUser(new CreateNewActivitiesListCommand(user.getId()));
-        activitiesService.addNewActivitiesListToUser(new CreateNewActivitiesListCommand(user.getId()));
-        ActivitiesList activitiesList = user.getActivitiesList().get(0);
-        ActivitiesList activitiesList1 = user.getActivitiesList().get(1);
+                testActivityType.getId(),
+                0, 0));
         // when
-        Activity activity1 = activitiesService.addActivityToActivityList(new AddActivityCommand(
-                activitiesList.getId(),
-                testActivityType.getId()));
-        Activity activity2 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
-                activitiesList.getId(),
-                testActivityType.getId()));
-        Activity activity3 = activitiesService.addActivityToActivityList(new AddActivityCommand(
-                activitiesList1.getId(),
-                testActivityType.getId()));
-        Activity activity4 =  activitiesService.addActivityToActivityList(new AddActivityCommand(
-                activitiesList1.getId(),
-                testActivityType.getId()));
-        activitiesService.startActivity(new StartActivityCommand( activity1.getId() ));
-        activitiesService.startActivity(new StartActivityCommand( activity2.getId() ));
-        activitiesService.startActivity(new StartActivityCommand( activity3.getId() ));
-        activitiesService.startActivity(new StartActivityCommand( activity4.getId() ));
-        activitiesService.finishActivity(new FinishActivityCommand( activity1.getId()));
-        activitiesService.finishActivity(new FinishActivityCommand( activity3.getId()));
+        activitiesService.startActivity( new StartActivityCommand(activity1.getId()));
+        activitiesService.finishActivity( new FinishActivityCommand(activity1.getId()));
+        activitiesService.startActivity( new StartActivityCommand(activity2.getId()));
+        activitiesService.finishActivity( new FinishActivityCommand(activity2.getId()));
+        activitiesService.startActivity( new StartActivityCommand(activity3.getId()));
+        activitiesService.finishActivity( new FinishActivityCommand(activity3.getId()));
         // then
-        assertEquals( 3000, user.getUserExperience(), "User total experience differs.");
+        assertEquals( 13000, user.getUserExperience(), "User total experience differs.");
     }
+
 
 }

@@ -7,8 +7,9 @@ import java.time.Duration;
 @DomainFactory
 public class ActivityFactory {
 
-    public Activity createActivities(final ActivityType activityType, final ActivitiesList activitiesList) {
-        return new Activity(activityType, activitiesList);
+    public Activity createActivities(final ActivityType activityType, final ActivitiesList activitiesList,
+                                     final long longitude, final long latitude) {
+        return new Activity(activityType, activitiesList, longitude, latitude);
     }
 
 }

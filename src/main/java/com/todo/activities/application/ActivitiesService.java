@@ -51,7 +51,9 @@ public class ActivitiesService {
         ActivityType typeOfActivity = activityTypeRepository
                 .findById(addActivityCommand.getActivityTypeId())
                 .orElseThrow(ActivityTypeNotFound::new);
-        Activity newActivity = activityFactory.createActivities(typeOfActivity, owningActivitiesList);
+        Activity newActivity = activityFactory.createActivities(typeOfActivity, owningActivitiesList,
+                addActivityCommand.getLongitude(),
+                addActivityCommand.getLatitude());
         owningActivitiesList.addActivity(newActivity);
         activityRepository.save(newActivity);
         activitiesListRepository.save(owningActivitiesList);
@@ -70,10 +72,9 @@ public class ActivitiesService {
         Activity activity = activityRepository
                 .findById(finishActivityCommand.getActivityId())
                 .orElseThrow(ActivityNotFound::new);
-        User owningUser = userRepository.find(activity.getActivitiesList().getId()).get();
-        ActivitiesList owningActivitiesList = activity.getActivitiesList();
+        User owningUser = userRepository.find(activity.getActivitiesList().getUser().getId()).get();
         activity.finishActivity();
-        activity.setAward(experienceCalcService.calculateExperienceGain(activity, owningActivitiesList, owningUser ));
+        activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
         return activityRepository.save(activity);
     }
 

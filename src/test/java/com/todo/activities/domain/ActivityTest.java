@@ -16,7 +16,7 @@ public class ActivityTest {
                 Duration.ZERO,
                 1000
         );
-        Activity activity = new Activity(activityType, activitiesList);
+        Activity activity = new Activity(activityType, activitiesList, 0, 0);
         // when
         activity.startActivity();
         // then
@@ -33,7 +33,7 @@ public class ActivityTest {
                 Duration.ZERO,
                 1000
         );
-        Activity activity = new Activity(activityType, activitiesList);
+        Activity activity = new Activity(activityType, activitiesList, 0, 0);
         // when
         // then
         assertThrows( Activity.ActivityNotStarted.class, activity::finishActivity,

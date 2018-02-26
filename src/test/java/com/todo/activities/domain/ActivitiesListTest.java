@@ -51,8 +51,8 @@ public class ActivitiesListTest {
     void shouldAddActivity() {
         // given
         ActivitiesList testActivitiesList = new ActivitiesList(user);
-        Activity activity = new Activity(testActivityType, testActivitiesList);
-        Activity activity1 = new Activity(testActivityType, testActivitiesList);
+        Activity activity = new Activity(testActivityType, testActivitiesList, 0, 0);
+        Activity activity1 = new Activity(testActivityType, testActivitiesList, 0, 0);
         testEntityManager.persist(testActivitiesList);
         testEntityManager.persist(testActivityType);
         testEntityManager.persist(activity);
@@ -70,54 +70,27 @@ public class ActivitiesListTest {
     void shouldPersistActivityViaActivities() {
         // given
         ActivitiesList testActivitiesList = new ActivitiesList(user);
-        Activity activity = new Activity(testActivityType, testActivitiesList);
-        Activity activity1 = new Activity(testActivityType, testActivitiesList);
+        Activity activity = new Activity(testActivityType, testActivitiesList, 0, 0);
         // when
         testActivitiesList.addActivity(activity);
         testEntityManager.persist(testActivityType);
         testEntityManager.persist(testActivitiesList);
-        testActivitiesList.addActivity(activity1);
-        testEntityManager.persist(testActivitiesList);
         // then
-        ActivitiesList activitiesList = testEntityManager.find(ActivitiesList.class, testActivitiesList.getId());
-        assertEquals( 2, activitiesList.getActivities().size(),
-                "Objects weren't persisted properly");
+        assertNotNull( testEntityManager.find(Activity.class, activity.getId()), "Activity weren't persisted");
+
     }
 
     @Test
     void shouldntBeAbleToModifyList() {
         // given
         ActivitiesList activitiesList = new ActivitiesList(user);
-        Activity activity = new Activity(testActivityType, activitiesList);
-        Activity activity1 = new Activity(testActivityType, activitiesList);
+        Activity activity = new Activity(testActivityType, activitiesList, 0, 0);
+        Activity activity1 = new Activity(testActivityType, activitiesList, 0, 0);
         // when
         activitiesList.addActivity(activity);
         // then
         assertThrows( UnsupportedOperationException.class, () -> activitiesList.getActivities().add(activity1),
                 "Was able to add activity.");
-    }
-
-    @Test
-    void shouldSumExperience(){
-        // given
-        ActivitiesList activitiesList = new ActivitiesList(user);
-        Activity activity = new Activity(testActivityType, activitiesList);
-        Activity activity1 = new Activity(testActivityType, activitiesList);
-        activity.startActivity();
-        activity.finishActivity();
-        activity1.startActivity();
-        activity1.finishActivity();
-        testEntityManager.persist(testActivityType);
-        testEntityManager.persist(activitiesList);
-        testEntityManager.persist(activity);
-        testEntityManager.persist(activity1);
-        testEntityManager.flush();
-        testEntityManager.clear();
-        // when
-        activitiesList = testEntityManager.find(ActivitiesList.class, activitiesList.getId());
-        // then
-        assertEquals( 2000, activitiesList.getTotalExperienceForThisList(),
-                "Total experience differs from what was expected");
     }
 
 

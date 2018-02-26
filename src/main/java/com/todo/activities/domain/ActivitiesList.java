@@ -4,6 +4,7 @@ import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class ActivitiesList extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    @Getter
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "activitiesList")

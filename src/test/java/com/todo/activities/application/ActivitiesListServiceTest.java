@@ -87,11 +87,18 @@ public class ActivitiesListServiceTest {
         // when
         activitiesService.addActivityToActivityList( new AddActivityCommand(
                 activitiesList.get(0).getId(),
-                testActivityType.getId()
+                testActivityType.getId(),
+                0,
+                0
         ));
         // then
         assertEquals( 1, user.getActivitiesList().get(0).getActivities().size(),
                 "Activity weren't persisted" );
+    }
+
+    @Test
+    void shouldSumExperience(){
+
     }
 
 }
