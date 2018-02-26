@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
+@Getter @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Activity extends AbstractEntity{
     private long award;
     private LocalDateTime startDate;

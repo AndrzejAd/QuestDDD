@@ -1,6 +1,7 @@
 package com.todo.activities.application;
 
 import com.ddd.common.annotations.ApplicationService;
+import com.ddd.common.events.ActivityIsFinished;
 import com.ddd.common.validation.ContractBroken;
 import com.todo.activities.application.commands.AddActivityCommand;
 import com.todo.activities.application.commands.CreateNewActivitiesListCommand;
@@ -8,12 +9,14 @@ import com.todo.activities.application.commands.FinishActivityCommand;
 import com.todo.activities.application.commands.StartActivityCommand;
 import com.todo.activities.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @ApplicationService
 @Transactional
 public class ActivitiesService {
-
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
@@ -21,12 +24,13 @@ public class ActivitiesService {
     private final ActivityFactory activityFactory;
     private final ActivitiesListFactory activitiesListFactory;
     private final ExperienceCalcService experienceCalcService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public ActivitiesService(ActivitiesListFactory activitiesListFactory, ActivitiesListRepository activitiesListRepository,
                              UserRepository userRepository, ActivityFactory activityFactory,
                              ActivityTypeRepository activityTypeRepository, ActivityRepository activityRepository,
-                             ExperienceCalcService experienceCalcService) {
+                             ExperienceCalcService experienceCalcService, ApplicationEventPublisher applicationEventPublisher) {
         this.activitiesListFactory = activitiesListFactory;
         this.activitiesListRepository = activitiesListRepository;
         this.userRepository = userRepository;
@@ -34,6 +38,7 @@ public class ActivitiesService {
         this.activityTypeRepository = activityTypeRepository;
         this.activityRepository = activityRepository;
         this.experienceCalcService = experienceCalcService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
@@ -77,7 +82,18 @@ public class ActivitiesService {
         User owningUser = userRepository.find(activity.getActivitiesList().getUser().getId()).get();
         activity.finishActivity();
         activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
+        notifyUserAboutFinishingActivity(activity, owningUser);
         return activityRepository.save(activity);
+    }
+
+    protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
+        applicationEventPublisher.publishEvent(
+                new ActivityIsFinished(this,
+                        activity.getId(),
+                        owningUser.getEmailAddress(),
+                        owningUser.getUsername(),
+                        LocalDateTime.now(),
+                        activity.getAward()));
     }
 
     public class UserNotFound extends ContractBroken { }

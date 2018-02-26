@@ -9,22 +9,22 @@ import lombok.ToString;
 import org.hibernate.annotations.Formula;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
 @Table( name = "Account" )
+@Getter
 public class User extends AbstractEntity {
-    @Getter
+    private String username;
     private int level;
-
-    @Getter
     private double totalUserExperience;
 
+    @Column(name = "address")
+    private String emailAddress;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @Getter(value = AccessLevel.NONE)
     private List<ActivitiesList> activities = new ArrayList<>();
 
     public User() {
