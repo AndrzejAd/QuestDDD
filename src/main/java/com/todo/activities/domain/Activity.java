@@ -34,6 +34,8 @@ public class Activity extends AbstractEntity{
 
     public Activity(ActivityType activityType, ActivitiesList activitiesList, long longitude, long latitude) {
         super();
+        Contract.isBetween(longitude, 180, -180,  WrongLatitudeOrLongitude::new);
+        Contract.isBetween(latitude, 85.05, -85.05, WrongLatitudeOrLongitude::new);
         this.activityType = activityType;
         this.activitiesList = activitiesList;
         this.award = 0;
@@ -43,6 +45,7 @@ public class Activity extends AbstractEntity{
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
 
     public void startActivity(){
         Contract.isTrue( progress == Progress.NOTDONE, ActivityAlreadyStarted::new );
@@ -90,4 +93,7 @@ public class Activity extends AbstractEntity{
     protected class ActivityAlreadyStarted extends ContractBroken{}
 
     protected class ActivityNotStarted extends ContractBroken{}
+
+    protected class WrongLatitudeOrLongitude extends ContractBroken{}
+
 }

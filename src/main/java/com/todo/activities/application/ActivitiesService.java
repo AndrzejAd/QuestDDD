@@ -8,8 +8,10 @@ import com.todo.activities.application.commands.FinishActivityCommand;
 import com.todo.activities.application.commands.StartActivityCommand;
 import com.todo.activities.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 @ApplicationService
+@Transactional
 public class ActivitiesService {
 
     private final UserRepository userRepository;
