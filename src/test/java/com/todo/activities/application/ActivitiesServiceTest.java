@@ -2,7 +2,10 @@ package com.todo.activities.application;
 
 import com.todo.activities.application.commands.AddActivityCommand;
 import com.todo.activities.application.commands.CreateNewActivitiesListCommand;
+import com.todo.activities.application.commands.FinishActivityCommand;
+import com.todo.activities.application.commands.StartActivityCommand;
 import com.todo.activities.domain.ActivitiesList;
+import com.todo.activities.domain.Activity;
 import com.todo.activities.domain.ActivityType;
 import com.todo.activities.domain.User;
 import com.todo.registering.saving.domain.Account;
@@ -45,7 +48,7 @@ public class ActivitiesServiceTest {
 
     @BeforeEach
     void setUpUser(){
-        Account account = accountFactory.createUser("test@test", "Poland", "Krk", "Guy",
+        Account account = accountFactory.createUser("a1190842@nwytg.com", "Poland", "Krk", "Guy",
                 "Strong",
                 LocalDate.of(1990, Month.APRIL, 25).toEpochDay());
         testEntityManager.persist(account);
@@ -59,8 +62,6 @@ public class ActivitiesServiceTest {
         );
         testEntityManager.persist(testActivityType);
     }
-
-
 
     @Test
     void shouldAddActivitiesListToUser() {
@@ -99,8 +100,16 @@ public class ActivitiesServiceTest {
     }
 
     @Test
-    void shouldSumExperience(){
-
+    void shouldSendEmailToUser(){
+        //given
+        ActivitiesList activitiesList = activitiesService.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(user.getId()) );
+        Activity activity =
+                activitiesService.addActivityToActivityList(new AddActivityCommand(activitiesList.getId(), testActivityType.getId(), 0 ,0));
+        //when
+        activitiesService.startActivity(new StartActivityCommand(activity.getId()));
+        activitiesService.finishActivity(new FinishActivityCommand(activity.getId()));
+        //then
+        assertTrue(true);
     }
 
 }

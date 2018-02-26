@@ -25,7 +25,7 @@ public class ActivityIsFinishedListener implements ApplicationListener<ActivityI
                 new SendEmailCommand(
                         activityIsFinished.getEmail(),
                         "You finished some activity!",
-                        "Hello " + activityIsFinished.getUsername() + ",\n Nice, you got "
+                        " nice, you got "
                                 + activityIsFinished.getXpGained() + " xp!",
                         activityIsFinished.getUsername()));
     }
