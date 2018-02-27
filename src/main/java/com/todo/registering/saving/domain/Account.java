@@ -12,15 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
-
-@ToString
-@Getter
-@EqualsAndHashCode(callSuper = false, of = "email")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-
 @AggregateRoot
 @Entity
 @Table( name = "Account")
+@ToString @Getter @EqualsAndHashCode(callSuper = false, of = "email") @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account extends AbstractEntity{
 
     @Embedded
