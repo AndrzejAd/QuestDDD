@@ -1,4 +1,7 @@
 package com.todo.activities.domain;
+import com.todo.activities.domain.activity.ActivitiesList;
+import com.todo.activities.domain.activity.Activity;
+import com.todo.activities.domain.activity.ActivityType;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

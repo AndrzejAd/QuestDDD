@@ -1,12 +1,13 @@
-package com.todo.registering.mails.application;
+package com.todo.mails.application;
 
-import com.todo.mails.application.MailSenderImpl;
 import com.todo.mails.domain.Email;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+
 
 
 @ExtendWith(SpringExtension.class)
@@ -21,6 +22,5 @@ public class MailSenderImplTest {
         mailSenderImpl.sendEmail(new Email( "test@test", "test", "test", "test"));
 
     }
-
 
 }
