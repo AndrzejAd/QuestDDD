@@ -5,6 +5,7 @@ import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
 import com.quest.activities.application.commands.FinishActivityCommand;
 import com.quest.activities.application.commands.StartActivityCommand;
 import com.quest.activities.application.service.ActivitiesServiceImpl;
+import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.ActivitiesList;
 import com.quest.activities.domain.activity.Activity;
 import com.quest.activities.domain.activity.ActivityType;
@@ -78,7 +79,7 @@ public class ActivitiesServiceImplTest {
         // given
         // when
         // then
-        assertThrows(ActivitiesServiceImpl.UserNotFound.class,
+        assertThrows(UserNotFound.class,
                 () -> activitiesServiceImpl.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(999) ),
                 "Was able to add activities list to non existent user. ");
     }

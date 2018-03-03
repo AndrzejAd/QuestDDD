@@ -8,9 +8,14 @@ import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
 import com.quest.activities.application.commands.FinishActivityCommand;
 import com.quest.activities.application.commands.StartActivityCommand;
 import com.quest.activities.application.internal.ExperienceCalcService;
+import com.quest.activities.application.service.exceptions.ActivitiesListNotFound;
+import com.quest.activities.application.service.exceptions.ActivityNotFound;
+import com.quest.activities.application.service.exceptions.ActivityTypeNotFound;
+import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.*;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,7 @@ import java.util.Collection;
 
 @ApplicationService
 @Transactional
+@RequiredArgsConstructor
 public class ActivitiesServiceImpl implements ActivitiesService{
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
@@ -29,21 +35,6 @@ public class ActivitiesServiceImpl implements ActivitiesService{
     private final ActivitiesListFactory activitiesListFactory;
     private final ExperienceCalcService experienceCalcService;
     private final ApplicationEventPublisher applicationEventPublisher;
-
-    @Autowired
-    public ActivitiesServiceImpl(ActivitiesListFactory activitiesListFactory, ActivitiesListRepository activitiesListRepository,
-                                 UserRepository userRepository, ActivityFactory activityFactory,
-                                 ActivityTypeRepository activityTypeRepository, ActivityRepository activityRepository,
-                                 ExperienceCalcService experienceCalcService, ApplicationEventPublisher applicationEventPublisher) {
-        this.activitiesListFactory = activitiesListFactory;
-        this.activitiesListRepository = activitiesListRepository;
-        this.userRepository = userRepository;
-        this.activityFactory = activityFactory;
-        this.activityTypeRepository = activityTypeRepository;
-        this.activityRepository = activityRepository;
-        this.experienceCalcService = experienceCalcService;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
         User owningUser = userRepository
@@ -103,13 +94,5 @@ public class ActivitiesServiceImpl implements ActivitiesService{
                         LocalDateTime.now(),
                         activity.getAward()));
     }
-
-    public class UserNotFound extends ContractBroken { }
-
-    public class ActivitiesListNotFound extends ContractBroken { }
-
-    public class ActivityNotFound extends ContractBroken { }
-
-    public class ActivityTypeNotFound extends ContractBroken { }
 
 }

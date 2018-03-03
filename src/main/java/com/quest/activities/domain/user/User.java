@@ -1,5 +1,6 @@
 package com.quest.activities.domain.user;
 
+import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import com.quest.activities.domain.activity.ActivitiesList;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.*;
 
+@AggregateRoot
 @Entity
 @Table( name = "Account" )
 @Getter

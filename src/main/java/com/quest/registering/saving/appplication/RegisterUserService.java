@@ -6,6 +6,7 @@ import com.ddd.common.validation.InvalidCountry;
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
 import com.quest.registering.saving.domain.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,20 +14,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @ApplicationService
+@RequiredArgsConstructor
 public class RegisterUserService {
     private final AccountRepository accountRepository;
     private final AccountFactory accountFactory;
     private final AddressCheckerService addressCheckerService;
     private final ApplicationEventPublisher applicationEventPublisher;
-
-    @Autowired
-    public RegisterUserService(AccountRepository accountRepository, AccountFactory accountFactory,
-                               AddressCheckerService addressCheckerService, ApplicationEventPublisher applicationEventPublisher) {
-        this.accountRepository = accountRepository;
-        this.accountFactory = accountFactory;
-        this.addressCheckerService = addressCheckerService;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void registerUser(CreateUserCommand createUserCommand) {

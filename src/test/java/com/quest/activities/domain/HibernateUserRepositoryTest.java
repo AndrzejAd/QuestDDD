@@ -1,5 +1,6 @@
 package com.quest.activities.domain;
 
+import com.quest.activities.domain.user.User;
 import com.quest.activities.infastructure.HibernateUserRepository;
 import com.quest.registering.saving.appplication.RegisterUserService;
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
@@ -39,7 +40,7 @@ public class HibernateUserRepositoryTest {
         // when
         registerUserService.registerUser(createUserCommand);
         // then
-        assertTrue(hibernateUserRepository.doesUserExist(1));
+        assertTrue(hibernateUserRepository.getAllUsers().size() >= 1, "User was not persisted");
     }
 
     @Test

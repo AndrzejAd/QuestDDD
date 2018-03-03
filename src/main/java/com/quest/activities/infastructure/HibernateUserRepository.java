@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,5 +37,11 @@ public class HibernateUserRepository implements UserRepository {
     public User save(User user) {
         entityManager.persist(user);
         return user;
+    }
+
+    @Override
+    @SuppressWarnings(value = "unchecked")
+    public Collection<User> getAllUsers() {
+        return entityManager.createQuery("select u from User u").getResultList();
     }
 }
