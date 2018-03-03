@@ -2,8 +2,8 @@ package com.quest.mails.application.service;
 
 import com.ddd.common.annotations.ApplicationService;
 import com.quest.mails.application.commands.SendEmailCommand;
-import com.quest.mails.application.internal.EmailService;
-import com.quest.mails.application.internal.MailSenderImpl;
+import com.quest.mails.domain.EmailService;
+import com.quest.mails.domain.MailSenderImpl;
 import com.quest.mails.domain.Email;
 import com.quest.mails.domain.EmailSendingInfo;
 import com.quest.mails.domain.MailsInfoRepository;

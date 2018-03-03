@@ -1,4 +1,4 @@
-package com.quest.registering.saving.appplication.internal;
+package com.quest.registering.saving.domain;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;

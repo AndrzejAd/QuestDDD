@@ -1,9 +1,9 @@
-package com.quest.mails.application.listeners;
+package com.quest.mails.application.internal.listeners;
 
 import com.ddd.common.annotations.EventListener;
 import com.ddd.common.events.ActivityIsFinished;
 import com.quest.mails.application.commands.SendEmailCommand;
-import com.quest.mails.application.internal.EmailService;
+import com.quest.mails.domain.EmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

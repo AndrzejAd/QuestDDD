@@ -1,4 +1,4 @@
-package com.quest.mails.application.internal;
+package com.quest.mails.domain;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.mails.domain.Email;

@@ -1,10 +1,6 @@
-package com.quest.activities.application.internal;
+package com.quest.activities.domain.activity;
 
 import com.ddd.common.annotations.DomainService;
-import com.quest.activities.domain.activity.ActivitiesList;
-import com.quest.activities.domain.activity.Activity;
-import com.quest.activities.domain.activity.ActivityType;
-import com.quest.activities.domain.activity.Progress;
 import com.quest.activities.domain.user.User;
 
 import java.time.DayOfWeek;

@@ -1,7 +1,7 @@
 package com.quest.registering.saving.appplication;
 
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;
-import com.quest.registering.saving.appplication.internal.AddressCheckerService;
+import com.quest.registering.saving.domain.AddressCheckerService;
 import com.quest.registering.saving.domain.Address;
 import org.junit.jupiter.api.Test;
 

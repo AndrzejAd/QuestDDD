@@ -1,7 +1,7 @@
 package com.quest.activities.application.internal;
 
+import com.quest.activities.domain.location.RestCountryService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

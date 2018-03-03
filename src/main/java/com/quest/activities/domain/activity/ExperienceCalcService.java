@@ -1,4 +1,4 @@
-package com.quest.activities.application.internal;
+package com.quest.activities.domain.activity;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.activities.domain.activity.ActivitiesList;

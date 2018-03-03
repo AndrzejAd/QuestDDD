@@ -5,7 +5,7 @@ import com.ddd.common.events.UserIsRegistered;
 import com.ddd.common.validation.InvalidCountry;
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
-import com.quest.registering.saving.appplication.internal.AddressCheckerService;
+import com.quest.registering.saving.domain.AddressCheckerService;
 import com.quest.registering.saving.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

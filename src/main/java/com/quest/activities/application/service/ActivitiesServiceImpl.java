@@ -2,12 +2,8 @@ package com.quest.activities.application.service;
 
 import com.ddd.common.annotations.ApplicationService;
 import com.ddd.common.events.ActivityIsFinished;
-import com.ddd.common.validation.ContractBroken;
-import com.quest.activities.application.commands.AddActivityCommand;
-import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
-import com.quest.activities.application.commands.FinishActivityCommand;
-import com.quest.activities.application.commands.StartActivityCommand;
-import com.quest.activities.application.internal.ExperienceCalcService;
+import com.quest.activities.application.commands.*;
+import com.quest.activities.domain.activity.ExperienceCalcService;
 import com.quest.activities.application.service.exceptions.ActivitiesListNotFound;
 import com.quest.activities.application.service.exceptions.ActivityNotFound;
 import com.quest.activities.application.service.exceptions.ActivityTypeNotFound;
@@ -16,7 +12,6 @@ import com.quest.activities.domain.activity.*;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +76,8 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activityRepository.save(activity);
     }
 
-    public Collection<User> getNearbyUsersBasedOnActivities(){
+    public Collection<User> getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
+
         return null;
     }
 

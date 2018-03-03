@@ -1,6 +1,6 @@
 package com.quest.mails.application;
 
-import com.quest.mails.application.internal.MailSenderImpl;
+import com.quest.mails.domain.MailSenderImpl;
 import com.quest.mails.domain.Email;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
