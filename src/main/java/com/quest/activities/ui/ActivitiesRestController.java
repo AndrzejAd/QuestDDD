@@ -6,6 +6,7 @@ import com.quest.activities.application.commands.AddActivityCommand;
 import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
 import com.quest.activities.application.commands.FinishActivityCommand;
 import com.quest.activities.application.commands.StartActivityCommand;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class ActivitiesRestController {
     private final ActivitiesService activitiesService;
-
-    @Autowired
-    public ActivitiesRestController(ActivitiesService activitiesService) {
-        this.activitiesService = activitiesService;
-    }
 
     @RequestMapping(path = "/addNewActivitiesList", method = RequestMethod.POST)
     public ResponseEntity<String> addNewActivitiesList(@RequestParam("userId") final long userId){
@@ -56,6 +53,11 @@ public class ActivitiesRestController {
                 new FinishActivityCommand(activityId)
         );
         return new ResponseEntity<>("Finished activity!", HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/getNearbyUsers", method = RequestMethod.GET)
+    public ResponseEntity<String> getNearbyUsers(@RequestParam("userId") final long userId){
+        return new ResponseEntity<>("List created!", HttpStatus.CREATED);
     }
 
 }

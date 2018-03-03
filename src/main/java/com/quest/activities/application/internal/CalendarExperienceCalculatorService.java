@@ -55,7 +55,6 @@ public class CalendarExperienceCalculatorService implements ExperienceCalcServic
      * Thursday, Wednesday = bonus: + 1
      * Thursday, Friday = bonus: + 0
      * Saturday, Sunday = bonus: + 1
-     *
      * @param activity
      * @return
      */

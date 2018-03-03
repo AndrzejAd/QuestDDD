@@ -1,4 +1,4 @@
-package com.quest.mails.application;
+package com.quest.mails.domain;
 
 import com.quest.mails.domain.EmailSendingInfo;
 

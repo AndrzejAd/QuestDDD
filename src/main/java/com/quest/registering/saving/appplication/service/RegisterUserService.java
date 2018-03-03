@@ -1,13 +1,13 @@
-package com.quest.registering.saving.appplication;
+package com.quest.registering.saving.appplication.service;
 
 import com.ddd.common.annotations.ApplicationService;
 import com.ddd.common.events.UserIsRegistered;
 import com.ddd.common.validation.InvalidCountry;
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
+import com.quest.registering.saving.appplication.internal.AddressCheckerService;
 import com.quest.registering.saving.domain.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,6 +1,7 @@
 package com.quest.registering.saving.appplication;
 
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
+import com.quest.registering.saving.appplication.service.RegisterUserService;
 import com.quest.registering.saving.infastructure.SpringDataUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

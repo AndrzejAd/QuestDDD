@@ -1,8 +1,7 @@
 package com.quest.activities.domain;
 
-import com.quest.activities.domain.user.User;
 import com.quest.activities.infastructure.HibernateUserRepository;
-import com.quest.registering.saving.appplication.RegisterUserService;
+import com.quest.registering.saving.appplication.service.RegisterUserService;
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

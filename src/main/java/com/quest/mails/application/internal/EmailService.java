@@ -1,4 +1,4 @@
-package com.quest.mails.application;
+package com.quest.mails.application.internal;
 
 import com.quest.mails.application.commands.SendEmailCommand;
 

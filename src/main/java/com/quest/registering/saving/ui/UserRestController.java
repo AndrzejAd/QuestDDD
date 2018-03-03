@@ -1,7 +1,7 @@
 package com.quest.registering.saving.ui;
 
 import com.quest.registering.saving.appplication.commands.CreateUserCommand;
-import com.quest.registering.saving.appplication.RegisterUserService;
+import com.quest.registering.saving.appplication.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

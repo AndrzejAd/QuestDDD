@@ -1,4 +1,4 @@
-package com.quest.registering.saving.appplication;
+package com.quest.registering.saving.appplication.internal;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.registering.saving.appplication.commands.CheckAddressCommand;
@@ -25,7 +25,6 @@ public class AddressCheckerService {
             logger.warn("Couldn't get response from Rest Countries API" + e.getMessage());
             return false;
         }
-
     }
 
 }
