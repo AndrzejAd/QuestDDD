@@ -19,8 +19,8 @@ public class Activity extends AbstractEntity{
     private LocalDateTime startDate;
     private LocalDateTime finishDateTime;
     private boolean isDone;
-    private long longitude;
-    private long latitude;
+    private double longitude;
+    private double latitude;
 
     @Enumerated(value = EnumType.STRING)
     private Progress progress;
@@ -33,7 +33,7 @@ public class Activity extends AbstractEntity{
     @JoinColumn(name="activities_list_id", nullable = false, referencedColumnName = "id")
     private ActivitiesList activitiesList;
 
-    public Activity(ActivityType activityType, ActivitiesList activitiesList, long longitude, long latitude) {
+    public Activity(ActivityType activityType, ActivitiesList activitiesList, double longitude, double latitude) {
         super();
         Contract.isBetween(longitude, -180,180,   WrongLatitudeOrLongitude::new);
         Contract.isBetween(latitude, -85.05,85.05,  WrongLatitudeOrLongitude::new);

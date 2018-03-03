@@ -26,7 +26,6 @@ public class ActivitiesServiceImpl implements ActivitiesService{
     private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
     private final ActivityRepository activityRepository;
-    private final ActivityFactory activityFactory;
     private final ActivitiesListFactory activitiesListFactory;
     private final ExperienceCalcService experienceCalcService;
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -48,7 +47,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         ActivityType typeOfActivity = activityTypeRepository
                 .findById(addActivityCommand.getActivityTypeId())
                 .orElseThrow(ActivityTypeNotFound::new);
-        Activity newActivity = activityFactory.createActivities(typeOfActivity, owningActivitiesList,
+        Activity newActivity = new Activity(typeOfActivity, owningActivitiesList,
                 addActivityCommand.getLongitude(),
                 addActivityCommand.getLatitude());
         owningActivitiesList.addActivity(newActivity);

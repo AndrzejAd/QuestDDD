@@ -31,8 +31,8 @@ public class ActivitiesRestController {
     @RequestMapping(path = "/addActivity", method = RequestMethod.POST)
     public ResponseEntity<String> addActivity(@RequestParam("userId") final long userId,
                                               @RequestParam("activityTypeId") final long activityTypeId,
-                                              @RequestParam("longitude") final long longitude,
-                                              @RequestParam("longitude") final long latitude){
+                                              @RequestParam("longitude") final double longitude,
+                                              @RequestParam("longitude") final double latitude){
         activitiesService.addActivityToActivityList(
                 new AddActivityCommand(userId, activityTypeId, longitude, latitude)
         );

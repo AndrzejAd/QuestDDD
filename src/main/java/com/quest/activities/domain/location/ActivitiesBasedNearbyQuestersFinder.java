@@ -2,16 +2,12 @@ package com.quest.activities.domain.location;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.activities.domain.activity.ActivityRepository;
-import com.quest.activities.domain.location.NearbyQuesters;
-import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collector;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 
 
@@ -24,13 +20,13 @@ public class ActivitiesBasedNearbyQuestersFinder implements NearbyQuestersFinder
 
 
     /**
-     * Cant really think of any optimised way to search through all activities so will just choose at random.
      * @param user
      * @return
      */
     @Override
-    public NearbyQuesters getNearbyUsers(User user) {
+    public NearbyQuesters getNearbyUsers(User user, double radius) {
         Collection<Location> locations = getUserLocations(user);
+        Location representativeLocation = getRepresentativeLocation(locations);
 
         return null;
     }
@@ -50,6 +46,31 @@ public class ActivitiesBasedNearbyQuestersFinder implements NearbyQuestersFinder
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    protected Location getRepresentativeLocation(Collection<Location> locations) {
+        double averageLatitude = getAverageValuesFromLocation(locations, Location::getLatitude);
+        double averageLongitude = getAverageValuesFromLocation(locations, Location::getLongitude);
+        return new Location(
+                averageLatitude,
+                averageLongitude,
+                countryService.getCountryNameFromLatitudeAndLongitude(averageLatitude, averageLongitude).orElse("Undefined")
+        );
+    }
+
+    /**
+     * Ye, it will SUCK if user travels a lot. Lets hope he does not.
+     *
+     * @param locations
+     * @param toDoubleFunction
+     * @return
+     */
+    protected double getAverageValuesFromLocation(Collection<Location> locations, ToDoubleFunction<? super Location> toDoubleFunction) {
+        return locations
+                .stream()
+                .mapToDouble(toDoubleFunction)
+                .average()
+                .orElse(0.0);
     }
 
 }

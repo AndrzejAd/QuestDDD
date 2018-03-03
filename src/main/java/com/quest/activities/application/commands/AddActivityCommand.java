@@ -8,6 +8,6 @@ import lombok.Value;
 public class AddActivityCommand {
     private long activitiesListId;
     private long activityTypeId;
-    private long longitude;
-    private long latitude;
+    private double latitude;
+    private double longitude;
 }
