@@ -7,5 +7,5 @@ import com.quest.activities.domain.user.User;
 
 @DomainService
 public interface NearbyQuestersFinder {
-    NearbyQuesters getNearbyUsers(User user, double radius);
+    NearbyQuesters getNearbyUsers(User user, double radiusInKm);
 }

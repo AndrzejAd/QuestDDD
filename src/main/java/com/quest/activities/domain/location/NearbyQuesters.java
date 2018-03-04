@@ -4,23 +4,16 @@ import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.validation.Contract;
 import com.quest.activities.domain.user.User;
 import com.sun.javafx.UnmodifiableArrayList;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
 @AggregateRoot
-@NoArgsConstructor @EqualsAndHashCode
+@EqualsAndHashCode @AllArgsConstructor
 public class NearbyQuesters {
     @Getter
     private Location location;
-    private Set<User> nearbyQuesters;
-
-    public NearbyQuesters(Location location) {
-        this.location = location;
-        this.nearbyQuesters = new HashSet<>();
-    }
+    private Collection<User> nearbyQuesters;
 
     /**
      * Ensures there can be only one user in collection.
@@ -31,8 +24,8 @@ public class NearbyQuesters {
         nearbyQuesters.add(user);
     }
 
-    public Set<User> getNearbyQuesters() {
-        return Collections.unmodifiableSet(nearbyQuesters);
+    public Collection<User> getNearbyQuesters() {
+        return Collections.unmodifiableCollection(nearbyQuesters);
     }
 
 }

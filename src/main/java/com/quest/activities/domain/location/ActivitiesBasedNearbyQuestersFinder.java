@@ -5,7 +5,9 @@ import com.quest.activities.domain.activity.ActivityRepository;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
@@ -14,21 +16,24 @@ import java.util.stream.Collectors;
 @DomainService
 @RequiredArgsConstructor
 public class ActivitiesBasedNearbyQuestersFinder implements NearbyQuestersFinder {
-    private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final CountryService countryService;
 
-
     /**
+     * Should think about keeping reference to a user in Activity class - the complexity of this algorithm
+     * may be pretty bad
+     *
      * @param user
+     * @param radius in km
      * @return
      */
     @Override
     public NearbyQuesters getNearbyUsers(User user, double radius) {
         Collection<Location> locations = getUserLocations(user);
         Location representativeLocation = getRepresentativeLocation(locations);
-
-        return null;
+        Pair<Double, Double> radiusOfArea = convertKmToLatitudeAndLongitude(radius);
+        Collection<User> nearbyUsers = nearbyUsersByLocationAndRadius(representativeLocation, radiusOfArea);
+        return new NearbyQuesters(representativeLocation, nearbyUsers );
     }
 
     protected Collection<Location> getUserLocations(User user) {
@@ -71,6 +76,30 @@ public class ActivitiesBasedNearbyQuestersFinder implements NearbyQuestersFinder
                 .mapToDouble(toDoubleFunction)
                 .average()
                 .orElse(0.0);
+    }
+
+    /**
+     * 1 latitude = 110.575
+     * 1 longitude = 111.320*cos(latitude (radians)) km
+     *
+     * @param radius
+     * @return
+     */
+    protected Pair<Double, Double> convertKmToLatitudeAndLongitude(double radius) {
+        double latitude = radius / 110.575;
+        return Pair.of(latitude, 111.320 * Math.toRadians(latitude));
+    }
+
+    protected Collection<User> nearbyUsersByLocationAndRadius(Location representativeLocation, Pair<Double, Double> radiusOfArea) {
+        return activityRepository.findByLatitudeGreaterThanAndLatitudeLessThanAndLongitudeGreaterThanAndLongitudeLessThan(
+                representativeLocation.getLatitude() - radiusOfArea.getFirst(),
+                representativeLocation.getLatitude() + radiusOfArea.getFirst(),
+                representativeLocation.getLongitude() - radiusOfArea.getSecond(),
+                representativeLocation.getLongitude() + radiusOfArea.getSecond()
+            )
+            .stream()
+            .map(x -> x.getActivitiesList().getUser())
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }
