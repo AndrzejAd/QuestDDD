@@ -9,6 +9,8 @@ import com.quest.activities.application.service.exceptions.ActivityNotFound;
 import com.quest.activities.application.service.exceptions.ActivityTypeNotFound;
 import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.*;
+import com.quest.activities.domain.location.NearbyQuesters;
+import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.Collection;
 @Transactional
 @RequiredArgsConstructor
 public class ActivitiesServiceImpl implements ActivitiesService{
+    private final double radius = 50;
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
@@ -29,6 +32,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
     private final ActivitiesListFactory activitiesListFactory;
     private final ExperienceCalcService experienceCalcService;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final NearbyQuestersFinder nearbyQuestersFinder;
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
         User owningUser = userRepository
@@ -75,9 +79,11 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activityRepository.save(activity);
     }
 
-    public Collection<User> getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
-
-        return null;
+    public NearbyQuesters getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
+        User user = userRepository
+                .find(getNearbyUsersCommand.getUserId())
+                .orElseThrow(UserNotFound::new);
+        return nearbyQuestersFinder.getNearbyUsers(user, radius);
     }
 
     protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
