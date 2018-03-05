@@ -56,6 +56,7 @@ public class ActivitiesServiceImplTest {
         testEntityManager.persist(account);
         testEntityManager.flush();
         testEntityManager.clear();
+
         user = testEntityManager.find(User.class, testEntityManager.getId(account));
         testActivityType = new ActivityType(
                 "test",
@@ -63,6 +64,7 @@ public class ActivitiesServiceImplTest {
                 1000
         );
         testEntityManager.persist(testActivityType);
+
     }
 
     @Test
@@ -89,6 +91,7 @@ public class ActivitiesServiceImplTest {
         //given
         activitiesServiceImpl.addNewActivitiesListToUser( new CreateNewActivitiesListCommand(user.getId()));
         List<ActivitiesList> activitiesList = user.getActivitiesList();
+
         // when
         activitiesServiceImpl.addActivityToActivityList( new AddActivityCommand(
                 activitiesList.get(0).getId(),

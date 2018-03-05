@@ -40,6 +40,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
                 .orElseThrow(UserNotFound::new);
         ActivitiesList activitiesList = activitiesListFactory.createActivities(owningUser);
         owningUser.addActivities(activitiesList);
+        activitiesListRepository.save(activitiesList);
         userRepository.save(owningUser);
         return activitiesList;
     }
