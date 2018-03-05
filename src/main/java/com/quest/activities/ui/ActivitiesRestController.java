@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequiredArgsConstructor
 public class ActivitiesRestController {
@@ -32,7 +34,7 @@ public class ActivitiesRestController {
     public ResponseEntity<String> addActivity(@RequestParam("userId") final long userId,
                                               @RequestParam("activityTypeId") final long activityTypeId,
                                               @RequestParam("longitude") final double longitude,
-                                              @RequestParam("longitude") final double latitude){
+                                              @RequestParam("longitude") final double latitude) {
         activitiesService.addActivityToActivityList(
                 new AddActivityCommand(userId, activityTypeId, longitude, latitude)
         );

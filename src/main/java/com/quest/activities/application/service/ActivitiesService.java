@@ -7,6 +7,7 @@ import com.quest.activities.domain.location.NearbyQuesters;
 import com.quest.activities.domain.user.User;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public interface ActivitiesService {
     ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand);

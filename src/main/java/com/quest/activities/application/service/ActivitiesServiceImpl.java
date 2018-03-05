@@ -13,17 +13,23 @@ import com.quest.activities.domain.location.NearbyQuesters;
 import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
+import com.quest.activities.infastructure.async.AsyncHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 @ApplicationService
 @Transactional
 @RequiredArgsConstructor
-public class ActivitiesServiceImpl implements ActivitiesService{
+public class ActivitiesServiceImpl implements ActivitiesService {
     private final double radius = 50;
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
@@ -33,6 +39,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
     private final ExperienceCalcService experienceCalcService;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final NearbyQuestersFinder nearbyQuestersFinder;
+    private final AsyncHelper asyncHelper;
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
         User owningUser = userRepository
@@ -44,23 +51,23 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activitiesList;
     }
 
-    public Activity addActivityToActivityList(AddActivityCommand addActivityCommand){
-        ActivitiesList owningActivitiesList = activitiesListRepository
-                .findById(addActivityCommand.getActivitiesListId())
-                .orElseThrow(ActivitiesListNotFound::new);
-        ActivityType typeOfActivity = activityTypeRepository
-                .findById(addActivityCommand.getActivityTypeId())
-                .orElseThrow(ActivityTypeNotFound::new);
-        Activity newActivity = new Activity(typeOfActivity, owningActivitiesList,
-                addActivityCommand.getLongitude(),
-                addActivityCommand.getLatitude());
-        owningActivitiesList.addActivity(newActivity);
-        activityRepository.save(newActivity);
-        activitiesListRepository.save(owningActivitiesList);
-        return newActivity;
+    public Activity addActivityToActivityList(AddActivityCommand addActivityCommand) {
+        CompletableFuture<ActivitiesList> owningActivitiesListFuture
+                = asyncHelper.getActivitiesListFuture(addActivityCommand.getActivitiesListId(), activitiesListRepository)
+                .thenApply(activitiesListRepository::save);
+        CompletableFuture<ActivityType> typeOfActivityFuture
+                = asyncHelper.getActivityTypeFuture(addActivityCommand.getActivityTypeId(), activityTypeRepository);
+        CompletableFuture<Activity> newActivityFuture
+                = asyncHelper.getActivityFuture(typeOfActivityFuture, owningActivitiesListFuture,
+                    addActivityCommand.getLongitude(), addActivityCommand.getLatitude() )
+                .thenApply(activityRepository::save);
+        return newActivityFuture.join();
     }
 
-    public Activity startActivity(StartActivityCommand startActivityCommand){
+
+
+
+    public Activity startActivity(StartActivityCommand startActivityCommand) {
         Activity activity = activityRepository
                 .findById(startActivityCommand.getActivityId())
                 .orElseThrow(ActivityNotFound::new);
@@ -68,25 +75,25 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activityRepository.save(activity);
     }
 
-    public Activity finishActivity(FinishActivityCommand finishActivityCommand){
+    public Activity finishActivity(FinishActivityCommand finishActivityCommand) {
         Activity activity = activityRepository
                 .findById(finishActivityCommand.getActivityId())
                 .orElseThrow(ActivityNotFound::new);
         User owningUser = userRepository.find(activity.getActivitiesList().getUser().getId()).get();
         activity.finishActivity();
-        activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
+        activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser));
         notifyUserAboutFinishingActivity(activity, owningUser);
         return activityRepository.save(activity);
     }
 
-    public NearbyQuesters getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
+    public NearbyQuesters getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand) {
         User user = userRepository
                 .find(getNearbyUsersCommand.getUserId())
                 .orElseThrow(UserNotFound::new);
         return nearbyQuestersFinder.getNearbyUsers(user, radius);
     }
 
-    protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
+    protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser) {
         applicationEventPublisher.publishEvent(
                 new ActivityIsFinished(this,
                         activity.getId(),
