@@ -27,7 +27,7 @@ Java 8, Lombok, Spring Boot, Spring Data, JPA/Hibernate, Maven, Junit 5, log4j 2
 
 ### Description
 
-This is a training DDD web app created in free time. 
+This is a training DDD web app created in free time. Based on classic ToDo app, but not entirely - has few more features. Creating it I tried to focus on software architecture, not functionality. 
 
 ### Use Cases
 
@@ -44,8 +44,37 @@ This is a training DDD web app created in free time.
   - He can search for NearbyQuesters - people who are close to him
     - They can be searched by different algorithims, right now it is based on longitude and latitude
       - Country name based on longitude and latitude is provided by external REST api
-  - ActivitiesList, Activities and User are persistent. NearbyQuesters will be calculated when it will be needed. 
+  - ActivitiesList, Activities and User are persistent. NearbyQuesters are calculated when it is needed. 
   
+### Architecture:
+
+Package
+
+```
+ddd
+ |
+ |-> annotaions
+ |-> domain
+ |-> events
+ |-> validation
+```
+
+Contains common components used in application. 
+
+
+Packages
+
+```
+todo
+ |
+ |-> activities
+ |-> mails
+ |-> registering
+```
+
+Are the heart of the api. They communicate between each other only by Spring events (mainly to send some mails). 
+
+
 
 ## Running the tests
 
