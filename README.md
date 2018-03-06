@@ -72,7 +72,7 @@ todo
  |-> registering
 ```
 
-Are the heart of the api. They communicate between each other only by Spring events (mainly to send some mails). 
+Are the heart of the api. They communicate between each other only by Spring events (mainly to order sending mails). 
 
 
 
