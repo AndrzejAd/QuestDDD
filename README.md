@@ -42,10 +42,7 @@ Git obviously
 
 ## Authors
 
-* **ME** - *Initial work* - [PurpleBooth](https://github.com/GraphZero)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
+* **ME** - *Initial work* - [CountZero](https://github.com/GraphZero)
 
 ## Acknowledgments
 
