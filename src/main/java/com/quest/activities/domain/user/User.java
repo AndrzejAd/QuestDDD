@@ -42,10 +42,7 @@ public class User extends AbstractEntity {
     }
 
     public double getUserExperience(){
-        return activities
-                .stream()
-                .mapToDouble(ActivitiesList::getTotalExperienceForThisList)
-                .sum();
+        return totalUserExperience;
     }
 
     public void addExperience(double experience){

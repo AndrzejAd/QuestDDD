@@ -76,6 +76,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         User owningUser = userRepository.find(activity.getActivitiesList().getUser().getId()).get();
         activity.finishActivity();
         activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
+        owningUser.addExperience(activity.getAward());
         notifyUserAboutFinishingActivity(activity, owningUser);
         return activityRepository.save(activity);
     }
