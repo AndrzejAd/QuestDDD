@@ -11,6 +11,7 @@ import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.*;
 import com.quest.activities.domain.location.NearbyQuesters;
 import com.quest.activities.domain.location.NearbyQuestersFinder;
+import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -81,11 +82,11 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activityRepository.save(activity);
     }
 
-    public NearbyQuesters getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
+    public NearbyQuestersDto getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
         User user = userRepository
                 .find(getNearbyUsersCommand.getUserId())
                 .orElseThrow(UserNotFound::new);
-        return nearbyQuestersFinder.getNearbyUsers(user, radius);
+        return nearbyQuestersFinder.getNearbyUsers(user, radius).dto();
     }
 
     protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){

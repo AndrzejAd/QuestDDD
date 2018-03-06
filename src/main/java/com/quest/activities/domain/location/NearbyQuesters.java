@@ -3,8 +3,9 @@ package com.quest.activities.domain.location;
 import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.validation.Contract;
 import com.ddd.common.validation.ContractBroken;
+import com.quest.activities.domain.location.dto.Location;
+import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import com.quest.activities.domain.user.User;
-import com.sun.javafx.UnmodifiableArrayList;
 import lombok.*;
 
 import java.util.*;
@@ -30,6 +31,14 @@ public class NearbyQuesters {
         return Collections.unmodifiableCollection(nearbyQuesters);
     }
 
+    public NearbyQuestersDto dto(){
+        return NearbyQuestersDto.builder()
+                .location(location)
+                .nearbyQuesters(nearbyQuesters)
+                .build();
+    }
+
     private class UserIsAlreadyInNearbyQuesters extends ContractBroken{}
+
 
 }

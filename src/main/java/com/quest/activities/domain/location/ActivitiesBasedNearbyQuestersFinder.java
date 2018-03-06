@@ -2,8 +2,8 @@ package com.quest.activities.domain.location;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.activities.domain.activity.ActivityRepository;
+import com.quest.activities.domain.location.dto.Location;
 import com.quest.activities.domain.user.User;
-import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 

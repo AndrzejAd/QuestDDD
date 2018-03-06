@@ -1,11 +1,9 @@
 package com.quest.activities.ui;
 
+import com.quest.activities.application.commands.*;
 import com.quest.activities.application.service.ActivitiesService;
 import com.quest.activities.application.service.ActivitiesServiceImpl;
-import com.quest.activities.application.commands.AddActivityCommand;
-import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
-import com.quest.activities.application.commands.FinishActivityCommand;
-import com.quest.activities.application.commands.StartActivityCommand;
+import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,8 +56,8 @@ public class ActivitiesRestController {
     }
 
     @RequestMapping(path = "/getNearbyUsers", method = RequestMethod.GET)
-    public ResponseEntity<String> getNearbyUsers(@RequestParam("userId") final long userId){
-        return new ResponseEntity<>("List created!", HttpStatus.CREATED);
+    public ResponseEntity<NearbyQuestersDto> getNearbyUsers(@RequestParam("userId") final long userId){
+        return new ResponseEntity<>(activitiesService.getNearbyUsersBasedOnActivities(new GetNearbyUsersCommand(userId)), HttpStatus.CREATED);
     }
 
 }

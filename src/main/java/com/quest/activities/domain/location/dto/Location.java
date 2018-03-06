@@ -1,4 +1,4 @@
-package com.quest.activities.domain.location;
+package com.quest.activities.domain.location.dto;
 
 import lombok.Value;
 

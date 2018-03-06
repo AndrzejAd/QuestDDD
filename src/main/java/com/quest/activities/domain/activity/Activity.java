@@ -3,6 +3,7 @@ package com.quest.activities.domain.activity;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
 import com.ddd.common.validation.ContractBroken;
+import com.quest.activities.domain.activity.dto.Progress;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
