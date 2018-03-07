@@ -1,11 +1,9 @@
 package com.quest.activities.ui;
 
 import com.quest.activities.application.commands.*;
-import com.quest.activities.application.service.ActivitiesService;
-import com.quest.activities.application.service.ActivitiesServiceImpl;
+import com.quest.activities.application.service.IActivitiesCommandService;
 import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,16 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
-public class ActivitiesRestController {
-    private final ActivitiesService activitiesService;
+public class ActivitiesCommandRestController {
+    private final IActivitiesCommandService IActivitiesCommandService;
 
     @RequestMapping(path = "/addNewActivitiesList", method = RequestMethod.POST)
     public ResponseEntity<String> addNewActivitiesList(@RequestParam("userId") final long userId){
-        activitiesService.addNewActivitiesListToUser(
+        IActivitiesCommandService.addNewActivitiesListToUser(
                 new CreateNewActivitiesListCommand(userId)
         );
         return new ResponseEntity<>("List created!", HttpStatus.CREATED);
@@ -33,7 +29,7 @@ public class ActivitiesRestController {
                                               @RequestParam("activityTypeId") final long activityTypeId,
                                               @RequestParam("longitude") final double longitude,
                                               @RequestParam("longitude") final double latitude){
-        activitiesService.addActivityToActivityList(
+        IActivitiesCommandService.addActivityToActivityList(
                 new AddActivityCommand(userId, activityTypeId, longitude, latitude)
         );
         return new ResponseEntity<>("Activity added to user!", HttpStatus.CREATED);
@@ -41,7 +37,7 @@ public class ActivitiesRestController {
 
     @RequestMapping(path = "/startActivity", method = RequestMethod.POST)
     public ResponseEntity<String> startActivity(@RequestParam("activityId") final long activityId){
-        activitiesService.startActivity(
+        IActivitiesCommandService.startActivity(
                 new StartActivityCommand(activityId)
         );
         return new ResponseEntity<>("Started activity!", HttpStatus.OK);
@@ -49,15 +45,11 @@ public class ActivitiesRestController {
 
     @RequestMapping(path = "/finishActivity", method = RequestMethod.POST)
     public ResponseEntity<String> finishActivity(@RequestParam("activityId") final long activityId){
-        activitiesService.finishActivity(
+        IActivitiesCommandService.finishActivity(
                 new FinishActivityCommand(activityId)
         );
         return new ResponseEntity<>("Finished activity!", HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/getNearbyUsers", method = RequestMethod.GET)
-    public ResponseEntity<NearbyQuestersDto> getNearbyUsers(@RequestParam("userId") final long userId){
-        return new ResponseEntity<>(activitiesService.getNearbyUsersBasedOnActivities(new GetNearbyUsersCommand(userId)), HttpStatus.CREATED);
-    }
 
 }

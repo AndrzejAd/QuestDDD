@@ -1,6 +1,6 @@
 package com.quest.activities.domain;
 
-import com.quest.activities.application.service.ActivitiesServiceImpl;
+import com.quest.activities.application.service.ActivitiesCommandService;
 import com.quest.activities.application.commands.AddActivityCommand;
 import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
 import com.quest.activities.application.commands.FinishActivityCommand;
@@ -12,7 +12,6 @@ import com.quest.activities.domain.user.User;
 import com.quest.registering.saving.domain.Account;
 import com.quest.registering.saving.domain.AccountFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ class UserTest {
     private AccountFactory accountFactory;
 
     @Autowired
-    private ActivitiesServiceImpl activitiesServiceImpl;
+    private ActivitiesCommandService activitiesServiceImpl;
 
     private User user;
     private ActivityType testActivityType;

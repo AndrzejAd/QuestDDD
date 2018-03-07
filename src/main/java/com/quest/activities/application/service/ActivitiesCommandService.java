@@ -9,7 +9,6 @@ import com.quest.activities.application.service.exceptions.ActivityNotFound;
 import com.quest.activities.application.service.exceptions.ActivityTypeNotFound;
 import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.*;
-import com.quest.activities.domain.location.NearbyQuesters;
 import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import com.quest.activities.domain.user.User;
@@ -19,12 +18,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @ApplicationService
 @Transactional
 @RequiredArgsConstructor
-public class ActivitiesServiceImpl implements ActivitiesService{
+public class ActivitiesCommandService implements IActivitiesCommandService {
     private final double radius = 50;
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
@@ -82,12 +80,7 @@ public class ActivitiesServiceImpl implements ActivitiesService{
         return activityRepository.save(activity);
     }
 
-    public NearbyQuestersDto getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand){
-        User user = userRepository
-                .find(getNearbyUsersCommand.getUserId())
-                .orElseThrow(UserNotFound::new);
-        return nearbyQuestersFinder.getNearbyUsers(user, radius).dto();
-    }
+
 
     protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
         applicationEventPublisher.publishEvent(

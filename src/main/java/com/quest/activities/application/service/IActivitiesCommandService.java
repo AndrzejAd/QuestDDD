@@ -9,10 +9,9 @@ import com.quest.activities.domain.user.User;
 
 import java.util.Collection;
 
-public interface ActivitiesService {
+public interface IActivitiesCommandService {
     ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand);
     Activity addActivityToActivityList(AddActivityCommand addActivityCommand);
     Activity startActivity(StartActivityCommand startActivityCommand);
     Activity finishActivity(FinishActivityCommand finishActivityCommand);
-    NearbyQuestersDto getNearbyUsersBasedOnActivities(GetNearbyUsersCommand getNearbyUsersCommand);
 }

@@ -4,7 +4,7 @@ import com.quest.activities.application.commands.AddActivityCommand;
 import com.quest.activities.application.commands.CreateNewActivitiesListCommand;
 import com.quest.activities.application.commands.FinishActivityCommand;
 import com.quest.activities.application.commands.StartActivityCommand;
-import com.quest.activities.application.service.ActivitiesServiceImpl;
+import com.quest.activities.application.service.ActivitiesCommandService;
 import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.ActivitiesList;
 import com.quest.activities.domain.activity.Activity;
@@ -34,13 +34,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestEntityManager
 @Transactional
-public class ActivitiesServiceImplTest {
+public class ActivitiesServiceTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Autowired
-    private ActivitiesServiceImpl activitiesServiceImpl;
+    private ActivitiesCommandService activitiesServiceImpl;
 
     @Autowired
     private AccountFactory accountFactory;
