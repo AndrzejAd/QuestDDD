@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 @Transactional
 @RequiredArgsConstructor
 public class ActivitiesCommandService implements IActivitiesCommandService {
-    private final double radius = 50;
     private final UserRepository userRepository;
     private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
@@ -31,7 +30,6 @@ public class ActivitiesCommandService implements IActivitiesCommandService {
     private final ActivitiesListFactory activitiesListFactory;
     private final ExperienceCalcService experienceCalcService;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final NearbyQuestersFinder nearbyQuestersFinder;
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
         User owningUser = userRepository
@@ -80,9 +78,7 @@ public class ActivitiesCommandService implements IActivitiesCommandService {
         return activityRepository.save(activity);
     }
 
-
-
-    protected void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
+    void notifyUserAboutFinishingActivity(Activity activity, User owningUser){
         applicationEventPublisher.publishEvent(
                 new ActivityIsFinished(this,
                         activity.getId(),

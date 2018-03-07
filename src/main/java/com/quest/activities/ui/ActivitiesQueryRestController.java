@@ -1,6 +1,6 @@
 package com.quest.activities.ui;
 
-import com.quest.activities.application.commands.*;
+import com.quest.activities.application.queries.GetNearbyUsersCommand;
 import com.quest.activities.application.service.IActivitiesQueryService;
 import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import lombok.RequiredArgsConstructor;

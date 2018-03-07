@@ -1,4 +1,4 @@
-package com.quest.activities.application.commands;
+package com.quest.activities.application.queries;
 
 import com.ddd.common.annotations.Command;
 import lombok.Value;

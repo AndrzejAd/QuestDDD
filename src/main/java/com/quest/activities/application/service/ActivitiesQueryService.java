@@ -1,7 +1,7 @@
 package com.quest.activities.application.service;
 
 import com.ddd.common.annotations.ApplicationService;
-import com.quest.activities.application.commands.GetNearbyUsersCommand;
+import com.quest.activities.application.queries.GetNearbyUsersCommand;
 import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.location.dto.NearbyQuestersDto;
