@@ -62,7 +62,7 @@ ddd
 Contains common components used in application. 
 
 
-Packages
+Package
 
 ```
 todo
@@ -72,7 +72,7 @@ todo
  |-> registering
 ```
 
-Are the heart of the api. They communicate between each other only by Spring events (mainly to order sending mails). 
+Is the heart of the api. Packages inside it communicate between each other only by Spring events (they do it mainly to order sending mails). 
 
 
 
