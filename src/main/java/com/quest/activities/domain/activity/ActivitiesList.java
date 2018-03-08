@@ -3,12 +3,17 @@ package com.quest.activities.domain.activity;
 import com.ddd.common.annotations.AggregateRoot;
 import com.ddd.common.domain.AbstractEntity;
 import com.ddd.common.validation.Contract;
+import com.quest.activities.domain.activity.dto.ActivitiesListDto;
+import com.quest.activities.domain.activity.dto.Progress;
 import com.quest.activities.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.*;
 
 
@@ -35,15 +40,38 @@ public class ActivitiesList extends AbstractEntity {
         activities.add(activity);
     }
 
-    public List<Activity> getActivities() {
-        return Collections.unmodifiableList(activities);
-    }
-
     public double getTotalExperienceForThisList(){
         return activities
                 .stream()
                 .mapToDouble(Activity::getAward)
                 .sum();
+    }
+
+    public double getPossibleExperienceForUnfinishedActivities(){
+        return activities.stream()
+                .filter( activity -> activity.getProgress() == Progress.NOTDONE)
+                .mapToDouble( x -> x.getActivityType().getBaseAward())
+                .sum();
+    }
+
+    public Optional<Activity> getOldestStartedButNotFinishedActivity(){
+        return activities.stream()
+                .filter( activity -> activity.getProgress() == Progress.BEINGDONE) // ensures Optional wont get me null
+                .sorted( (ac1, ac2) ->
+                        (int) (ac1.getStartDate().get().toEpochSecond(ZoneOffset.UTC) - ac1.getStartDate().get().toEpochSecond(ZoneOffset.UTC) )
+                 )
+                .findFirst();
+    }
+
+    public List<Activity> getActivities() {
+        return Collections.unmodifiableList(activities);
+    }
+
+    public ActivitiesListDto dto(){
+        return ActivitiesListDto.builder()
+                .user(user)
+                .activities(activities)
+                .build();
     }
 
     @Override
@@ -66,4 +94,6 @@ public class ActivitiesList extends AbstractEntity {
                 ", activities=" + activities +
                 '}';
     }
+
+
 }

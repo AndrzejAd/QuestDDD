@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,14 +48,13 @@ public class Activity extends AbstractEntity{
         this.latitude = latitude;
     }
 
-
     public void startActivity(){
         Contract.isTrue( progress == Progress.NOTDONE, ActivityAlreadyStarted::new );
         startDate = LocalDateTime.now();
         progress = Progress.BEINGDONE;
     }
 
-    /*
+    /**
         Award is only counted after finishing activity.
      */
     public void finishActivity(){
@@ -64,10 +64,14 @@ public class Activity extends AbstractEntity{
         finishDateTime = LocalDateTime.now();
     }
 
+    public Duration getDuration(){
+        Contract.notNull(startDate, finishDateTime);
+        return Duration.between(startDate, finishDateTime);
+    }
+
     public void setAward(long award){
         this.award = award;
     }
-
 
     public Optional<LocalDateTime> getStartDate() {
         return Optional.ofNullable(startDate);

@@ -97,5 +97,25 @@ public class ActivitiesListTest {
                 "Was able to add activity.");
     }
 
+    @Test
+    void shouldGetOldestActivity(){
+        // given
+        ActivitiesList activitiesList = new ActivitiesList(user);
+        Activity activity = new Activity(testActivityType, activitiesList, 0, 0);
+        Activity activity1 = new Activity(testActivityType, activitiesList, 0, 0);
+        Activity activity3 = new Activity(testActivityType, activitiesList, 0, 0);
+        activity.startActivity();
+        activity1.startActivity();
+        activity3.startActivity();
+        // when
+        activitiesList.addActivity(activity);
+        activitiesList.addActivity(activity1);
+        activitiesList.addActivity(activity3);
+        Activity activity2 = activitiesList.getOldestStartedButNotFinishedActivity().get();
+        // then
+        assertEquals( activity2, activity,
+                "Didnt return correct activity.");
+    }
+
 
 }
