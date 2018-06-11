@@ -9,20 +9,14 @@ import java.time.LocalDate;
 @MappedSuperclass
 @ToString
 @Getter
-public abstract class AbstractEntity {
+public abstract class AbstractEntity  extends PersistentClass{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Version
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private int version;
-
-    protected final LocalDate creationDate;
-
     public AbstractEntity() {
-        creationDate = LocalDate.now();
+        super();
     }
 
     @Override

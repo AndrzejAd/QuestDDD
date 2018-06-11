@@ -1,7 +1,7 @@
 package com.quest.activities.infastructure;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
-import com.quest.registering.saving.domain.Account;
+import com.quest.accounts.saving.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

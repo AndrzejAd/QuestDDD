@@ -3,6 +3,7 @@ package com.quest.activities.application.service;
 import com.ddd.common.annotations.ApplicationService;
 import com.ddd.common.events.ActivityIsFinished;
 import com.quest.activities.application.commands.*;
+import com.quest.activities.domain.activeness.MostActiveRegion;
 import com.quest.activities.domain.activity.ExperienceCalcService;
 import com.quest.activities.application.service.exceptions.ActivitiesListNotFound;
 import com.quest.activities.application.service.exceptions.ActivityNotFound;
@@ -87,5 +88,7 @@ public class ActivitiesCommandService implements IActivitiesCommandService {
                         LocalDateTime.now(),
                         activity.getAward()));
     }
+
+
 
 }

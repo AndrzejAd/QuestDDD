@@ -5,6 +5,8 @@ import com.quest.activities.application.queries.GetNearbyUsersQuery;
 import com.quest.activities.application.queries.GetUserActivitiesListQuery;
 import com.quest.activities.application.service.exceptions.ActivitiesListNotFound;
 import com.quest.activities.application.service.exceptions.UserNotFound;
+import com.quest.activities.domain.activeness.MostActiveRegion;
+import com.quest.activities.domain.activeness.MostActiveRegionCalculatorService;
 import com.quest.activities.domain.activity.ActivitiesList;
 import com.quest.activities.domain.activity.ActivitiesListRepository;
 import com.quest.activities.domain.activity.dto.ActivitiesListDto;
@@ -20,6 +22,7 @@ public class ActivitiesQueryService implements IActivitiesQueryService {
     private final double radius = 50;
     private final UserRepository userRepository;
     private final NearbyQuestersFinder nearbyQuestersFinder;
+    private final MostActiveRegionCalculatorService mostActiveRegionCalculatorService;
     private final ActivitiesListRepository activitiesListRepository;
 
     @Override
@@ -36,5 +39,10 @@ public class ActivitiesQueryService implements IActivitiesQueryService {
                 .findById(getUserActivitiesListQuery.getActivitiesListId())
                 .orElseThrow(ActivitiesListNotFound::new);
         return activitiesList.dto();
+    }
+
+    @Override
+    public MostActiveRegion getMostActiveRegion() {
+        return mostActiveRegionCalculatorService.calculateMostActiveRegion();
     }
 }

@@ -1,8 +1,8 @@
-package com.quest.activities.domain;
+package com.quest.accounts.saving.appplication;
 
-import com.quest.activities.infastructure.HibernateUserRepository;
-import com.quest.accounts.saving.appplication.service.RegisterUserService;
 import com.quest.accounts.saving.appplication.commands.CreateUserCommand;
+import com.quest.accounts.saving.appplication.service.RegisterUserService;
+import com.quest.accounts.saving.infastructure.SpringDataUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class HibernateUserRepositoryTest {
+public class RegisterAccountServiceTest {
     private final String testEmailAddress = "z2370531@mvrht.net";
-
-    @Autowired
-    private HibernateUserRepository hibernateUserRepository;
 
     @Autowired
     private RegisterUserService registerUserService;
 
+    @Autowired
+    private SpringDataUserRepository springDataUserRepository;
+
     @Test
-    void userShouldExist() {
+    void registerUser() {
         // given
+        long dbSize = springDataUserRepository.count();
         CreateUserCommand createUserCommand = new CreateUserCommand(
                 testEmailAddress,
                 "Poland",
@@ -38,25 +39,8 @@ public class HibernateUserRepositoryTest {
         );
         // when
         registerUserService.registerUser(createUserCommand);
-        // then
-        assertTrue(hibernateUserRepository.getAllUsers().size() >= 1, "User was not persisted");
+        //then
+        //no exception
+        assertEquals(dbSize + 1, springDataUserRepository.count(), "Account was saved");
     }
-
-    @Test
-    void userShouldntExist() {
-        // given
-        CreateUserCommand createUserCommand = new CreateUserCommand(
-                testEmailAddress,
-                "Poland",
-                "Krk",
-                "Guy",
-                "Strong",
-                LocalDate.of(1990, Month.APRIL, 25).toEpochDay()
-        );
-        // when
-        registerUserService.registerUser(createUserCommand);
-        // then
-        assertFalse(hibernateUserRepository.doesUserExist(2));
-    }
-
 }
