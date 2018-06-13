@@ -10,11 +10,13 @@ import com.quest.activities.application.service.exceptions.ActivityNotFound;
 import com.quest.activities.application.service.exceptions.ActivityTypeNotFound;
 import com.quest.activities.application.service.exceptions.UserNotFound;
 import com.quest.activities.domain.activity.*;
+import com.quest.activities.domain.admin.AdminControlPanel;
 import com.quest.activities.domain.location.NearbyQuestersFinder;
 import com.quest.activities.domain.location.dto.NearbyQuestersDto;
 import com.quest.activities.domain.user.User;
 import com.quest.activities.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,17 @@ public class ActivitiesCommandService implements IActivitiesCommandService {
     private final ActivitiesListRepository activitiesListRepository;
     private final ActivityTypeRepository activityTypeRepository;
     private final ActivityRepository activityRepository;
+
     private final ActivitiesListFactory activitiesListFactory;
+
     private final ExperienceCalcService experienceCalcService;
+
     private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final AdminControlPanel adminControlPanel;
+
+    @Value("{bonus.experience}")
+    private String adminExperienceBonus;
 
     public ActivitiesList addNewActivitiesListToUser(CreateNewActivitiesListCommand createNewActivitiesListCommand) {
         User owningUser = userRepository
@@ -73,7 +83,7 @@ public class ActivitiesCommandService implements IActivitiesCommandService {
                 .orElseThrow(ActivityNotFound::new);
         User owningUser = userRepository.find(activity.getActivitiesList().getUser().getId()).get();
         activity.finishActivity();
-        activity.setAward(experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
+        activity.setAward((long) adminControlPanel.grantBonus(Double.parseDouble(adminExperienceBonus)) + experienceCalcService.calculateExperienceGain(activity, activity.getActivitiesList(), owningUser ));
         owningUser.addExperience(activity.getAward());
         notifyUserAboutFinishingActivity(activity, owningUser);
         return activityRepository.save(activity);

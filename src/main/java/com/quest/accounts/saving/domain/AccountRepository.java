@@ -8,4 +8,5 @@ public interface AccountRepository {
     void delete(Account account);
     Collection<Account> findAll();
     Optional<Account> findByEmail(Email email);
+    Optional<Account> findById(long id);
 }

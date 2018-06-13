@@ -12,10 +12,6 @@ import java.util.Map;
 
 import static com.quest.activities.domain.activeness.Regions.POLISH_REGIONS;
 
-
-/**
- * TODO
- */
 @DomainService
 public class BasicMostActiveRegionCalculator implements MostActiveRegionCalculatorService {
     private final IGenericCrudDao<Activity> activitiesGenericCrudDao;

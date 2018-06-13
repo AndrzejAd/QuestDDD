@@ -10,9 +10,9 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public void deleteAccount(final long userId){
-
+        accountRepository
+                .findById(userId)
+                .ifPresent(accountRepository::delete);
     }
-
-
 
 }
