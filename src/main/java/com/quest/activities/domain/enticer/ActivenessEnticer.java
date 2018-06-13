@@ -1,9 +1,19 @@
 package com.quest.activities.domain.enticer;
 
-public class ActivenessEnticer implements Enticer {
+import com.ddd.common.annotations.DomainService;
+
+import java.util.List;
+
+@DomainService
+public class ActivenessEnticer extends Enticer {
+
+    public ActivenessEnticer(List<EnticerObserver> enticmentObservers) {
+        super(enticmentObservers);
+    }
+
     @Override
-    public double enticeActivity() {
-        return 0;
+    public double enticeActivityMultiplier() {
+        return 1;
     }
 
 }

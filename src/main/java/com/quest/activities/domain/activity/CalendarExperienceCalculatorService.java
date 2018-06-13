@@ -2,22 +2,28 @@ package com.quest.activities.domain.activity;
 
 import com.ddd.common.annotations.DomainService;
 import com.quest.activities.domain.activity.dto.Progress;
+import com.quest.activities.domain.enticer.EnticerObserver;
 import com.quest.activities.domain.user.User;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 @DomainService
-public class CalendarExperienceCalculatorService implements ExperienceCalcService {
+public class CalendarExperienceCalculatorService implements ExperienceCalcService, EnticerObserver {
+    long baseMultiplier = 1;
 
     @Override
     public long calculateExperienceGain(Activity activity, ActivitiesList activitiesList, User user) {
         ActivityType activityType = activity.getActivityType();
-        long baseMultiplier = 1;
         if (checkIfItsOnlyActivityOfThatTypeInList(user, activityType.getId())) baseMultiplier += 2;
         baseMultiplier += calculateBonusMultiplierForActiveActivities(activitiesList);
         baseMultiplier += dayOfTheWeekBonus(activity);
         return activityType.getBaseAward() * baseMultiplier;
+    }
+
+    @Override
+    public void addBonusToExperienceGain(double amountMultiplier) {
+        baseMultiplier *= baseMultiplier;
     }
 
     protected boolean checkIfItsOnlyActivityOfThatTypeInList(User user, long activityTypeId) {

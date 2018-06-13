@@ -1,8 +1,18 @@
 package com.quest.activities.domain.enticer;
 
-public class WeatherEnticer implements Enticer {
+import com.ddd.common.annotations.DomainService;
+
+import java.util.List;
+
+@DomainService
+public class WeatherEnticer extends Enticer {
+
+    public WeatherEnticer(List<EnticerObserver> enticmentObservers) {
+        super(enticmentObservers);
+    }
+
     @Override
-    public double enticeActivity() {
-        return 0;
+    public double enticeActivityMultiplier() {
+        return 1;
     }
 }
